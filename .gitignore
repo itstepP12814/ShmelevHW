@@ -1,0 +1,35 @@
+#################  
+## openFrameworks  
+#################  
+
+[Bb]in/*  
+![Bb]in/data/  
+[Bb]uild/  
+[Oo]bj/  
+[Oo]bj/Debug/ 
+*.o  
+[Dd]ebug*/  
+[Rr]elease*/  
+*.mode*  
+*.app/  
+*.pyc  
+*.log  
+
+#################  
+## Code::Blocks  
+#################  
+
+*.depend
+*.layout
+*.o
+bin/
+obj/Debug/
+############  
+## Windows  
+############  
+
+# Windows image file caches  
+Thumbs.db  
+
+# Folder config file  
+Desktop.ini
