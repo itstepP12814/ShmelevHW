@@ -13,6 +13,7 @@ class Fraction
         Fraction (int a, int b):numerator(a), denominator(b){};
         Fraction (int a):numerator(a), denominator(1){};
         void print()const;
+        int findNOD();
 
         const Fraction operator*(const Fraction &secondFract);
         const Fraction operator/(const Fraction &secondFract);
