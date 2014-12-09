@@ -16,21 +16,23 @@ void timeClass::timeFormatter(const int geo) {
 }
 
 void timeClass::timeInput() {
-    char* dayFlag;
+    char dayFlag[2];
     int hour;
     printf("Enter time HH:MM:SS (AM/PM)\n");
-    scanf("%d", hour);
-    scanf("%s", dayFlag);
-    cout << dayFlag;
+    scanf("%d:%d:%d %s", &actualTime->tm_hour, &actualTime->tm_min, &actualTime->tm_sec, &dayFlag);
 
-    /*
-    if(dayFlag != pmEthalon) {
-        if(dayFlag == "PM" || dayFlag == "Pm" || dayFlag == "pM" || dayFlag == "pm") {
+    if(strcmp(dayFlag,"PM") == 0 || strcmp(dayFlag,"Pm")==0 || strcmp(dayFlag,"pM")==0 || strcmp(dayFlag,"pm")==0) {
             actualTime->tm_hour+=12;
-        }
     }
-    */
 }
+
+timeClass& timeClass::operator+(const timeClass secondTime)const{
+    timeClass newTime;
+    time_t newActualTime = mktime(actualTime)+mktime(secondTime.actualTime);
+    newTime.actualTime = localtime(newActualTime);
+    return newTime;
+}
+
 
 
 

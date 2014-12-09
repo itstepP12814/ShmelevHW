@@ -4,6 +4,7 @@
 #include <ctime>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 using namespace std;
 
 class timeClass
@@ -17,6 +18,7 @@ class timeClass
 
         void timeInput();
         void timeFormatter(const int geo);
+        timeClass& operator+(const timeClass secondTime)const;
         char* getTime(){return showTime;}
         char showTime[12]; //переменная для вывода времени
     protected:
