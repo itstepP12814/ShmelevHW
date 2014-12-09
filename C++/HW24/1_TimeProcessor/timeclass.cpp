@@ -26,12 +26,16 @@ void timeClass::timeInput() {
     }
 }
 
-timeClass& timeClass::operator+(const timeClass secondTime)const{
+timeClass timeClass::operator+(const timeClass& secondTime){
     timeClass newTime;
-    time_t newActualTime = mktime(actualTime)+mktime(secondTime.actualTime);
-    newTime.actualTime = localtime(newActualTime);
+    time_t temp = secondTime.secondsStore;
+    time_t seconds = temp+this->secondsStore;
+    newTime.actualTime = localtime(&seconds);
+    strftime(showTime,9,"%H:%M:%S", newTime.actualTime);
+    cout << showTime << endl;
     return newTime;
 }
+
 
 
 

@@ -4,9 +4,8 @@ int main()
 {
     timeClass timer;
     timeClass timer2;
-
-    timer = timer+timer2;
-    timer.timeFormatter('Europe');
-    cout << endl << timer.getTime();
+    timeClass timer3 = timer+timer2;
+    timer3.timeFormatter('Europe');
+    cout << endl << timer3.getTime();
     return 0;
 }

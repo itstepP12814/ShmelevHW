@@ -18,7 +18,7 @@ class timeClass
 
         void timeInput();
         void timeFormatter(const int geo);
-        timeClass& operator+(const timeClass secondTime)const;
+        timeClass operator+(const timeClass& secondTime);
         char* getTime(){return showTime;}
         char showTime[12]; //переменная для вывода времени
     protected:
