@@ -19,23 +19,43 @@ void timeClass::timeInput() {
     char dayFlag[2];
     int hour;
     printf("Enter time HH:MM:SS (AM/PM)\n");
-    scanf("%d:%d:%d %s", &actualTime->tm_hour, &actualTime->tm_min, &actualTime->tm_sec, &dayFlag);
+    scanf("%d:%d:%d", &actualTime->tm_hour, &actualTime->tm_min, &actualTime->tm_sec);
 
     if(strcmp(dayFlag,"PM") == 0 || strcmp(dayFlag,"Pm")==0 || strcmp(dayFlag,"pM")==0 || strcmp(dayFlag,"pm")==0) {
             actualTime->tm_hour+=12;
     }
+    secondsStore = mktime(actualTime);
 }
 
-timeClass timeClass::operator+(const timeClass& secondTime){
+timeClass timeClass::operator-(timeClass& secondTime){
     timeClass newTime;
-    time_t temp = secondTime.secondsStore;
-    time_t seconds = temp+this->secondsStore;
-    newTime.actualTime = localtime(&seconds);
+    newTime.secondsStore = secondsStore-secondTime.secondsStore;
+    newTime.actualTime = localtime(&newTime.secondsStore);
+    newTime.actualTime->tm_hour-=3; ///ÏÎÏĞÀÂÊÀ ÍÀ ÒĞÈ ×ÀÑÀ, ÎÒÊÓÄÀ İÒÈ ÒĞÈ ×ÀÑÀ?
     strftime(showTime,9,"%H:%M:%S", newTime.actualTime);
-    cout << showTime << endl;
     return newTime;
 }
 
+timeClass timeClass::operator+(timeClass& interval){
+    timeClass temp;
+    ///ÍÅ ĞÀÁÎÒÀÅÒ
+    secondsStore = mktime(actualTime);
+    temp.secondsStore = secondsStore + interval.secondsStore;
+    temp.actualTime = localtime(&temp.secondsStore);
+    strftime(showTime,9,"%H:%M:%S", temp.actualTime);
+    return temp;
+}
+
+int timeClass::operator==(const timeClass& anotherTime){
+    if(secondsStore < anotherTime.secondsStore || secondsStore > anotherTime.secondsStore){
+        return 0;
+    }
+    else {
+        if(secondsStore == anotherTime.secondsStore){
+            return 1;
+        }
+    }
+}
 
 
 

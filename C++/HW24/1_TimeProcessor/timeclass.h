@@ -14,11 +14,19 @@ class timeClass
             secondsStore = time(NULL);//Записываем количество секунд в переменную типа time_t
             actualTime = localtime(&secondsStore); //Переписываем данные в структуру tm
         };
+
+        timeClass(const timeClass& another){
+            secondsStore = another.secondsStore;
+            actualTime = another.actualTime;
+        };
+
         ~timeClass(){};
 
         void timeInput();
         void timeFormatter(const int geo);
-        timeClass operator+(const timeClass& secondTime);
+        timeClass operator-(timeClass& secondTime);
+        timeClass operator+(timeClass& interval);
+        int operator==(const timeClass& anotherTime);
         char* getTime(){return showTime;}
         char showTime[12]; //переменная для вывода времени
     protected:
