@@ -14,6 +14,7 @@ class Matrix
         int& getNumber(const int i){return ptr_array[0][i];}
         int& getNumber(const int i,const int j){return ptr_array[i][j];}
         Matrix operator+(const Matrix& secondMatrix)const;
+        Matrix operator*(const Matrix& secondMatrix)const;
         void showArray();
     private:
         int** ptr_array;

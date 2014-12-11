@@ -23,6 +23,11 @@ Matrix::Matrix(int arraySize, int amountOfNumbers) {
     }
 }
 
+///Конструктор копирования
+Matrix::Matrix(const Matrix& copyOfMatrix){
+    *ptr_array = *copyOfMatrix.ptr_array;
+}
+
 Matrix::~Matrix()
 {
     if(amountOfNumbersInClass = 0) {
@@ -61,8 +66,34 @@ Matrix Matrix::operator+(const Matrix& secondMatrix)const {
         }
     }
     else {
-        cerr << "Error: array's have different configuratio\n";
+        cerr << "Error: array's have different configuration\n";
         exit(1);
     }
     return result;
+}
+
+Matrix Matrix::operator*(const Matrix& secondMatrix)const {
+    Matrix result(arraySizeInClass, amountOfNumbersInClass);
+    if(arraySizeInClass==secondMatrix.arraySizeInClass && amountOfNumbersInClass==secondMatrix.amountOfNumbersInClass) {
+        for(int i=0; i<arraySizeInClass; ++i) {
+            for(int j=0; j<amountOfNumbersInClass; ++j) {
+                result.ptr_array[i][j] = ptr_array[i][j]*secondMatrix.ptr_array[i][j];
+            }
+        }
+    }
+    else {
+        cerr << "Error: array's have different configuration\n";
+        exit(1);
+    }
+    return result;
+}
+
+Matrix& Matrix::transpose(){
+    int newSize = amountOfNumbersInClass;
+    int newAmountOfNumbers = arraySizeInClass;
+
+
+    Matrix (newSize,newAmountOfNumbers);
+
+    return this;
 }
