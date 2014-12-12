@@ -15,12 +15,12 @@ class Matrix
         int& getNumber(const int i,const int j){return ptr_array[i][j];}
         Matrix operator+(const Matrix& secondMatrix)const;
         Matrix operator*(const Matrix& secondMatrix)const;
+        const Matrix& transpose();
         void showArray();
     private:
         int** ptr_array;
         int arraySizeInClass;
         int amountOfNumbersInClass;
-
 };
 
 #endif // MATRIX_H

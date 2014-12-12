@@ -18,12 +18,12 @@ Matrix::Matrix(int arraySize, int amountOfNumbers) {
     }
     for(int i=0; i<arraySize; ++i) {
         for(int j=0; j<amountOfNumbers; ++j) {
-            ptr_array[i][j] = j+i;
+            ptr_array[i][j] = j;
         }
     }
 }
 
-///����������� �����������
+///Конструктор копирования
 Matrix::Matrix(const Matrix& copyOfMatrix){
     *ptr_array = *copyOfMatrix.ptr_array;
 }
@@ -88,12 +88,31 @@ Matrix Matrix::operator*(const Matrix& secondMatrix)const {
     return result;
 }
 
-Matrix& Matrix::transpose(){
+const Matrix& Matrix::transpose(){
+    ///Устанавливаем новые размеры матрицы
     int newSize = amountOfNumbersInClass;
     int newAmountOfNumbers = arraySizeInClass;
+    ///Создаем новую временную матрицу
+    Matrix temp(newSize,newAmountOfNumbers);
+    if(temp.ptr_array){
+        ///Переписываем значения
+        for(int i=0; i<arraySizeInClass; ++i){
+            for(int j=0; j<amountOfNumbersInClass; ++j){
+                temp.ptr_array[i][j]=ptr_array[j][i];
+            }
+        }
+        ///Удаляем исходный массив
+        for(int i=0; i<amountOfNumbersInClass; ++i){
+            delete []ptr_array[i];
+        }
+        ///Пересоздаем исходный массив в другом формате
+        ptr_array = new int* [newSize];
+        for(int i=0; i<newSize; ++i) {
+            ptr_array[i] = new int [newAmountOfNumbers];
+        }
+        ///Переносим информацию из временного массива обратно в массив объекта
+        ptr_array = temp.ptr_array;
+    }
 
-
-    Matrix (newSize,newAmountOfNumbers);
-
-    return this;
+    return *this;
 }
