@@ -110,7 +110,7 @@ const Matrix& Matrix::transpose(){
         for(int i=0; i<newSize; ++i) {
             ptr_array[i] = new int [newAmountOfNumbers];
         }
-        ///Переносим информацию из временного массива обратно в массив объекта
+        ///Перепимываем указатель на память содержащую новый массив
         ptr_array = temp.ptr_array;
     }
 
