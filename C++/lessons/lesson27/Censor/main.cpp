@@ -12,7 +12,6 @@ int main()
 
     linkedList lol;
     lol.inputPhrase();
-    lol.showPhrase();
     lol.censor();
     lol.showPhrase();
 

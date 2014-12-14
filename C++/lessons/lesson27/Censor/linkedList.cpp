@@ -44,20 +44,21 @@ void linkedList::inputPhrase() {
 
 void linkedList::censor() {
     WordElement* tempPtr = beginOfList;
-    for(int i=0; i<amountOfWords; ++i) {
-        bool banCheck = false;
-        for(int j=0; j<BANLIST_SIZE; ++j) {
-            size_t found = tempPtr->word.find(banList[j]);
-            size_t foundWithDot = tempPtr->word.find(banList[j]+".");
-            if(found != std::string::npos || foundWithDot != std::string::npos) {
+    int localAmount = amountOfWords;
+    for(int i=0; i<localAmount; ++i) {
+        bool banCheck = false;///Переменная для проверки того, было ли удалено слово, и совершен ли переход к следующему
+        for(int j=0; j<BANLIST_SIZE; ++j) { ///Проверяем по списку запрещенных слов
+            size_t found = tempPtr->word.find(banList[j]); ///Поиск запрещенного слова
+            size_t foundWithDot = tempPtr->word.find(banList[j]+"."); ///Поиск запрещенного слова, с точкой на конце
+            if(found != std::string::npos || foundWithDot != std::string::npos) { ///Если хоть одно совпало
                 WordElement* destroyPtr = tempPtr;
                 if(destroyPtr->prev != NULL) {
                     destroyPtr->prev->next = destroyPtr->next; ///Связываем указатель next предыдущего элемента с телом следующего элемента
                 }
                 if(destroyPtr->next != NULL) {
                     destroyPtr->next->prev = destroyPtr->prev; ///и наоборот
+                    tempPtr = tempPtr->next;
                 }
-                tempPtr = tempPtr->next;
                 destroyPtr->prev = nullptr;
                 destroyPtr->next = nullptr;
                 --amountOfWords;
