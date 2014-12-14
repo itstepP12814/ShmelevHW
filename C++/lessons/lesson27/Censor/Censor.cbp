@@ -34,9 +34,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/censorEngine.h" />
+		<Unit filename="linkedList.cpp" />
+		<Unit filename="linkedList.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/censorEngine.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
