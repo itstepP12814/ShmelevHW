@@ -4,8 +4,8 @@ Matrix::Matrix(int arraySize) {
     arraySizeInClass = arraySize;
     amountOfNumbersInClass = 0;
 
-    ptr_array[0] = new int [arraySize];
-    for(int i=0; i<arraySize; ++i) {
+    ptr_array[0] = new int [arraySizeInClass];
+    for(int i=0; i<arraySizeInClass; ++i) {
         ptr_array[0][i] = i;
     }
 }
@@ -115,4 +115,8 @@ const Matrix& Matrix::transpose(){
     }
 
     return *this;
+}
+
+int* Matrix::operator[](const int index)const{
+    return ptr_array[index];
 }

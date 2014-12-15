@@ -15,6 +15,7 @@ class Matrix
         int& getNumber(const int i,const int j){return ptr_array[i][j];}
         Matrix operator+(const Matrix& secondMatrix)const;
         Matrix operator*(const Matrix& secondMatrix)const;
+        int* operator[](const int index)const;
         const Matrix& transpose();
         void showArray();
     private:
