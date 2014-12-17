@@ -3,36 +3,21 @@
 #include <iostream>
 using namespace std;
 #include <time.h>
+#include <conio.h>
+#include <stdio.h>
 #include <stdlib.h>
-class slotLine;
-class slotMachine
+
+class slotLine
 {
     public:
-        slotMachine();
-        virtual ~slotMachine();
-        void spin();
-        void showResult();
-    protected:
-        slotLine* Lines;
-        int randomNumber;
-
-};
-
-class slotLine:public slotMachine
-{
-    public:
-        slotLine(int Multiplier): slotMachine(), symbols{'1','2','3','4'}{
-            spinMultiplier = Multiplier;
-        }
+        slotLine(): symbols{'\1','\2','\3','\4'}{}
         virtual ~slotLine(){}
-        bool spin(const int spinTimes);
+        char spin();
         char getSymbol();
+        void randomGen();
     private:
         char symbols[4];
         const int amountOfSymbols = 4;
-        int spinMultiplier; ///ћножитель вращений, дл€ каждого барабана - свой
+        int spinTimes;
 };
-
-
-
 #endif // SLOTMACHINE_H
