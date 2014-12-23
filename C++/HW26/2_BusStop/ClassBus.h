@@ -11,6 +11,7 @@ class ClassBus
     public:
         ClassBus(int number, int sheludeTime):busNumber(number), seconds(time(NULL)), busTime(sheludeTime){};
         virtual ~ClassBus();
+        friend BusStop;
 
     protected:
         const int busNumber;

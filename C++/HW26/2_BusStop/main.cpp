@@ -1,4 +1,6 @@
 #include "ClassBus.h"
+#include "BusStop.h"
+void checkBus(ClassBus &MassOfBus);
 
 int main(){
     ClassBus bus27(27,20);
@@ -10,4 +12,15 @@ int main(){
 
 
     return 0;
+}
+
+void checkBus(ClassBus &MassOfBus){
+    ClassBus temp;
+    while(temp.busTime == ){
+           temp = MassOfBus[0]
+           for(int j=1; j<BusAmount; ++j){ ///Реализация циклической очереди
+                MassOfBus[j-1] = MassOfBus[j];
+           }
+           MassOfBus[BusAmount-1] = temp;
+        }
 }
