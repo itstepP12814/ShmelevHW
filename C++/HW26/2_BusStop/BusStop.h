@@ -8,10 +8,10 @@ class BusStop
     public:
         BusStop();
         virtual ~BusStop();
+        const tm* getNowTime();
+        tm* actualTime;
     protected:
         time_t actualSeconds;
-        tm* actualTime;
-
 };
 
 #endif // BUSSTOP_H

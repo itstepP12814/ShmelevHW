@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="BusStop.cpp" />
+		<Unit filename="BusStop.h" />
 		<Unit filename="ClassBus.cpp" />
 		<Unit filename="ClassBus.h" />
 		<Unit filename="main.cpp" />

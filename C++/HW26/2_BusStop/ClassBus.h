@@ -9,14 +9,15 @@ using namespace std;
 class ClassBus
 {
     public:
+        ClassBus():busNumber(0), seconds(0), busTime(0){};
         ClassBus(int number, int sheludeTime):busNumber(number), seconds(time(NULL)), busTime(sheludeTime){};
+        ClassBus(const ClassBus& another);
         virtual ~ClassBus();
-        friend BusStop;
-
+        int busTime;
+        int busNumber;
+        ClassBus& operator[](int index);
     protected:
-        const int busNumber;
-        const time_t seconds;
-        const int busTime;
+        time_t seconds;
 };
 
 #endif // CLASSBUS_H

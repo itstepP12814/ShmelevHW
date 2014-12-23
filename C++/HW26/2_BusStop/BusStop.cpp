@@ -1,11 +1,15 @@
 #include "BusStop.h"
 
-BusStop::BusStop()
+BusStop::BusStop():actualSeconds(time(NULL)), actualTime(localtime(&actualSeconds))
 {
-    //ctor
 }
 
 BusStop::~BusStop()
 {
-    //dtor
+}
+
+const tm* BusStop::getNowTime(){
+    actualSeconds = time(NULL);
+    actualTime = localtime(&actualSeconds);
+    return actualTime;
 }
