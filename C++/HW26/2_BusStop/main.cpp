@@ -6,19 +6,21 @@ ClassBus spinBus(ClassBus* MassOfBus);
 
 int main(){
     BusStop station;
-
-    ClassBus bus27(27,20);
-    ClassBus bus33(33,40);
-    ClassBus bus57(57,0);
-    ClassBus bus78(78,10);
-    ClassBus bus35(35,45);
+    ClassBus bus27(27,10);
+    ClassBus bus33(33,20);
+    ClassBus bus57(57,30);
+    ClassBus bus78(78,40);
+    ClassBus bus35(35,55);
     ClassBus MassOfBus[5] = {bus27,bus33,bus57,bus78,bus35};
 
     ClassBus actualBus;
     int timeOfActualBus;
+    bool check = false;
     while(1){
-        for(int i=0; i<5; ++i){
-            const tm* actualTime = station.getNowTime();
+        const tm* actualTime = station.getNowTime();
+        if(actualTime->tm_sec == 0){check = true;}
+        for(int i=0; i<5 && check == true; ++i){
+            actualTime = station.getNowTime();
             ///Автобус прибывает на остановку только если его время совпадает с часами на остановке И если
             ///время автобуса, который стоит на остановке не является временем этого же автобуса
             if(MassOfBus[i].busTime == actualTime->tm_sec && timeOfActualBus != actualTime->tm_sec){
@@ -30,7 +32,6 @@ int main(){
     return 0;
 }
 
-///ОЧЕРЕДЬ НЕ СООТВЕТСТВУЕТ РАСПИСАНИЮ. ИСПРАВИТЬ!
 ClassBus spinBus(ClassBus* MassOfBus){
     ClassBus temp;
         temp = MassOfBus[0];
