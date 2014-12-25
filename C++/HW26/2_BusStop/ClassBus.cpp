@@ -1,6 +1,7 @@
 #include "ClassBus.h"
 
-ClassBus::ClassBus(const ClassBus& another):busNumber(another.busNumber), busTime(another.busTime), seconds(another.seconds){
+ClassBus::ClassBus(const ClassBus& another):busNumber(another.busNumber), busTime(another.busTime), seconds(another.seconds), maxPassengers(8){
+    amountOfPassengers = another.amountOfPassengers;
 }
 
 ClassBus::~ClassBus()
@@ -8,7 +9,11 @@ ClassBus::~ClassBus()
     //dtor
 }
 
-ClassBus& ClassBus::operator[](int index){
-    return this[index];
+///Решение проблемы:
+///use of deleted function 'ClassBus& ClassBus::operator=(const ClassBus&)'
+ClassBus& ClassBus::operator=(const ClassBus& another){
+    this->~ClassBus();
+    new(this)ClassBus(another);
+    return *this;
 }
 
