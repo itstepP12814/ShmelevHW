@@ -2,36 +2,52 @@
 
 using namespace std;
 
-class Item{
+class Tree{
+private:
+    struct Item{
+    public:
+        string key;
+        int Value;
+        Item* Left;
+        Item* Right;
+        Item(const string inKey):Left(nullptr), Right(nullptr), key(inKey){}
+        ~Item(){
+            delete Right;
+            delete Left;
+        }
+    };
+    Item* root;
+    size_t sizeOfTree;
 public:
-    Item(){};
-    ~Item(){};
-    int key;
-    string value;
-    Item* left;
-    Item* right;
-    Item* next;
-    Item* prev;
-} root;
-
-string& operator[](int i){
-    Item** current = &root;
-    while(*current != nullptr){
-        if((*current)->key == i){
-            return *current->value;
+    int& operator[](const string& index){
+        Item** current = &root;
+        while((*current)!=nullptr){
+            if(index == (*current)->key){
+                return (*current)->Value;
+            }
+            if(index < (*current)->key){
+                current = &((*current)->Left);
+            }
+            else{
+                current = &((*current)->Left);
+            }
         }
-        if(i<(*current->key)){
-            current = &current->left;
-        }
-        else{
-            current = &current->right;
-        }
+        (*current) = new Item(index);
+        ++sizeOfTree;
+        return (*current)->Value;
     }
-    *current =
-}
+    Tree(){};
+    ~Tree(){};
+
+};
 
 int main()
 {
+    Tree happy;
+    happy["LEXA"] = 1924;
+    happy["XAX"] = 1943;
+    happy["LEXASA"] = 1624;
+    happy["AFG"] = 2224;
 
     return 0;
 }
