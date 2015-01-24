@@ -36,6 +36,17 @@ public:
         ++sizeOfTree;
         return (*current)->Value;
     }
+
+    void showTree(Item* node){
+        if(node){
+            showTree(node->Left);
+            cout << node->key << " " << node->Value << endl;
+            showTree(node->Right);
+        }
+    }
+
+    Item* getRoot(){return root;}
+
     Tree(){};
     ~Tree(){};
 
@@ -48,6 +59,8 @@ int main()
     happy["XAX"] = 1943;
     happy["LEXASA"] = 1624;
     happy["AFG"] = 2224;
+
+    happy.showTree(happy.getRoot());
 
     return 0;
 }
