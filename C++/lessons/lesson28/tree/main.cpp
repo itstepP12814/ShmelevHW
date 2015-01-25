@@ -29,7 +29,7 @@ public:
                 current = &((*current)->Left);
             }
             else{
-                current = &((*current)->Left);
+                current = &((*current)->Right);
             }
         }
         (*current) = new Item(index);
