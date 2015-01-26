@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 using namespace std;
 
 class GaiTree{
@@ -29,7 +28,7 @@ class GaiTree{
 
         Offense& operator[](const string& index){
             Car** current = &root;
-            while((*current) != nullptr){ ///Почему? == работает, а != нет? Потому что кодблокс "молодец".
+            while((*current) == nullptr){ ///Почему? == работает, а != нет? Потому что кодблокс "молодец"?
                 if(index == (*current)->number){
                     return (*current)->list;
                 }
@@ -44,6 +43,21 @@ class GaiTree{
             ++sizeOfTree;
             return (*current)->list;
         }
+
+        void listPrinter(Car* node){
+            cout << "Car Number: " << node->number << endl;
+            cout << "\tOffense list:" << endl << "Running a red: " << node->list.running_a_red << endl;
+            cout << "Speeding: " << node->list.speeding << endl;
+            cout << "Illegal parking: " << node->list.illegal_parking << endl << endl;
+        }
+
+        void showTree(Car* node){
+            if(node){
+                showTree(node->leftCar);
+                showTree(node->rightCar);
+                listPrinter(node);
+            }
+        }
 };
 
 int main()
@@ -54,6 +68,6 @@ int main()
     DB1["6748UI"] = {1,2,1};
     DB1["5677FF"] = {2,0,4};
 
-    cout << DB1["2371GB"].running_a_red;
+    DB1.showTree(DB1.root);
     return 0;
 }
