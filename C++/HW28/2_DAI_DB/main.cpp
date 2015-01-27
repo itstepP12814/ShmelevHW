@@ -1,5 +1,7 @@
 #include <iostream>
 #include <cstdlib>
+#include <stdio.h>
+#include <string>
 using namespace std;
 
 class GaiTree{
@@ -65,12 +67,46 @@ class GaiTree{
             }
         }
 
-        void searchFromDiapason(const string& firstStr, Car* node){
-            const char* tempFirst = firstStr.c_str();
-            int integerPieceOfFirstStr = atoi(tempFirst);
-            cout << integerPieceOfFirstStr;
+     /*   void searchFromRange(string letterSequenceFirst, string letterSequenceLast, Car* node){
+            string alphabet[26] = { "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+            string numSequenceFirst = "\0";
+            size_t sizeStr = letterSequenceFirst.size();
+            for(int j=0; j<=sizeStr; ++j){
+                for(int i=0; i<10; ++i){
+                    char key[1];
+                    sprintf(key, "%d", i);
+                    if(letterSequenceFirst.front()==key[0]){
+                        numSequenceFirst+=letterSequenceFirst.substr(0,1);
+                        letterSequenceFirst.erase(0,1);
+                        --sizeStr;
+                        cout << numSequenceFirst << endl << letterSequenceFirst << endl;
+                        break;
+
+                    }
+                }
+            }
+            int intSequence = atoi(numSequenceFirst.c_str());
+            cout << intSequence;
+            int DexForNumSequenceFirst = 1; //Следующий десяток от числа номера
+            while(intSequence%DexForNumSequenceFirst){
+                DexForNumSequenceFirst*=10;
+            }
+            cout << DexForNumSequenceFirst;
+
+        }
+        */
+
+        void searchByRange(const string& letterSequenceFirst, const string& letterSequenceLast, Car* node){
+            if(node){
+                if(node->number >= letterSequenceFirst && node->number <= letterSequenceLast){
+                    listPrinter(node);
+                }
+                searchByRange(letterSequenceFirst, letterSequenceLast, node->leftCar);
+                searchByRange(letterSequenceFirst, letterSequenceLast, node->rightCar);
+            }
         }
 };
+
 
 void listPrinter(GaiTree::Car* node){
     cout << "Car Number: " << node->number << endl;
@@ -83,16 +119,17 @@ int main()
 {
     GaiTree DB1;
 
-    DB1["2371GB"] = {3,5,7};
-    DB1["6748UI"] = {1,2,1};
-    DB1["5677FF"] = {2,0,4};
+    DB1["A371GB"] = {3,5,7};
+    DB1["B748UI"] = {1,2,1};
+    DB1["C677FF"] = {2,0,4};
 
     DB1.showTree(DB1.root);
 
     cout << "\nSearch by number:\n\n";
     DB1.searchCar("2371GB", DB1.root);
 
-    cout << "\nSearch from diapason:\n\n";
-    DB1.searchFromDiapason("2371GB",DB1.root);
+    cout << "\nSearch by range:\n\n";
+    DB1.searchByRange("A371GB", "C444NF", DB1.root);
+
     return 0;
 }
