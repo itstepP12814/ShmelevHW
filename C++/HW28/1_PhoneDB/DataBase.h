@@ -1,6 +1,7 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 class DataBase
@@ -88,9 +89,19 @@ class DataBase
             return pointerFromParentToNode;
         }
 
+        Item* findAloneChild(Item* node){
+            Item* child = nullptr;
+                if(node->left){
+                    child = node->left;
+                }
+                else{
+                    child = node->right;
+                }
+                return child;
+        }
+
         bool delNode(const string& name){
             Item* node = operator[](name);
-            Item* current = node->parent;
 
             ///Первый случай
             if(node!=0 && node->left == nullptr && node->right == nullptr && node->name == name){//Если узел без потомков
@@ -100,16 +111,24 @@ class DataBase
             }
             ///Второй случай
             if(node!=0 && (node->left == nullptr ^ node->right == nullptr) && node->name == name){//
-                Item* child = nullptr;
-                if(node->left){
-                    child = node->left;
-                }
-                else{
-                    child = node->right;
-                }
                 Item** pointerFromParentToNode = parentNavigation(node);
-                (*pointerFromParentToNode) = child;
+                (*pointerFromParentToNode) = findAloneChild(node);
                 delete node;
+            }
+
+            ///Третий случай
+            if(node!=0 && node->left != nullptr && node->right != nullptr && node->name == name){//
+                Item* current = node->right;
+                while(current->left != nullptr){
+                    current = current->left;
+                }
+                node->name = current->name;
+                for(int i=0; i<3; ++i){
+                    node->phoneNumber[i] = current->phoneNumber[i];
+                }
+                Item** pointerFromParentToNode = parentNavigation(current);
+                (*pointerFromParentToNode) = findAloneChild(current);
+                delete current;
             }
             ///Проверка удаления
             if(!node){
