@@ -49,24 +49,23 @@ bool DataBase::readDB(Item* node){
     ifstream input("PhoneDataBase.txt", std::ios::in);
     if(input){
         while(!input.eof()){
-        input >> str; //Получаем слово
+        input >> str; //РџРѕР»СѓС‡Р°РµРј СЃР»РѕРІРѕ
         if(!(str.find("Name:"))){
-            input >> str; //Получаем собственно имя
+            input >> str; //РџРѕР»СѓС‡Р°РµРј СЃРѕР±СЃС‚РІРµРЅРЅРѕ РёРјСЏ
             //cout << str << endl;
             operator[](str);
             name = str;
             i=0;
         }
         else{
-            if(!(str.find("Phone:"))){
                 if(!(str.find("Phone:"))&&i<3){
                     input >> str;
-                    (operator[](name)->phoneNumber[i])={str};
+                    Item* object = operator[](name);
+                    object->phoneNumber[i]={str};
                     ++i;
                     if(i==3){i=0;}
                 }
             }
-        }
         }
 
         input.close();
