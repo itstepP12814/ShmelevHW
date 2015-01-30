@@ -2,6 +2,7 @@
 #define DATABASE_H
 #include <iostream>
 #include <string.h>
+#include <fstream>
 
 using namespace std;
 class DataBase
@@ -24,6 +25,7 @@ class DataBase
         };
         Item* root = nullptr;
         size_t sizeOfTree = 0;
+
         Item* operator[](const string& index){
             Item** current = &root;
             Item* parentTemp = nullptr;
@@ -53,6 +55,7 @@ class DataBase
 
         void printData(Item* node);
         Item* getRoot(){return root;};
+
         void showAll(Item* node){
             if(node){
             showAll(node->left);
@@ -140,6 +143,26 @@ class DataBase
             }
 
         }
+
+        void findByNumber(Item* node, const string& needle){
+            if(node){
+            findByNumber(node->left, needle);
+            findByNumber(node->right, needle);
+            int check=0;
+                for(int i=0; i<3; ++i){
+                    if(node->phoneNumber[i]==needle){
+                        ++check;
+                    }
+                }
+                if(check!=0){
+                    printData(node);
+                }
+            }
+        }
+
+        bool saveDB(Item* node);
+        void saveFunction(Item* node, ofstream& output);
+        bool readDB(Item* node);
 };
 
 #endif // DATABASE_H
