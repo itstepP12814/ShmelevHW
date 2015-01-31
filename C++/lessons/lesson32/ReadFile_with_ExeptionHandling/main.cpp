@@ -77,9 +77,9 @@ class Json_reader:public Reader{
 int main()
 {
     Reader t1;
-    try{ ///Инициализируем проверку
+    try{ ///РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїСЂРѕРІРµСЂРєСѓ
         t1.read();
-    } catch(StringException ex){ ///В случае исключения выдаем сообщение
+    } catch(StringException ex){ ///Р’ СЃР»СѓС‡Р°Рµ РёСЃРєР»СЋС‡РµРЅРёСЏ РІС‹РґР°РµРј СЃРѕРѕР±С‰РµРЅРёРµ
         ex.voice();
     }
     for(int i=0; i<t1.sizeOfArray; ++i){
