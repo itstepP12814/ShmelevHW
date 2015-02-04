@@ -1,6 +1,8 @@
 #include "copyHandle.h"
 #include <iostream>
 
+bool SAVE_CHOICE_STATE = false;
+
 //if (done == -1){
 //	const char* pathPtr = (toPath.c_str());
 //	int check_mkdir = _mkdir(pathPtr);
@@ -25,11 +27,11 @@ bool showSearchResult(_finddata_t searchResultQueue, long done){ //Показ результ
 
 int answerInterpretation(const _finddata_t& ob){
 	if (ob.attrib == _A_SUBDIR){
-		printf("Destination folder already exist. Combine?\n\t1 - Yes\n\t2 - Yes, for all\n\t3 - Skip\n\t4 - Cancel\nEnter answer number: ");
+		printf("Destination folder %s already exist. Combine?\n\t1 - Yes\n\t2 - Yes, for all\n\t3 - Skip\n\t4 - Cancel\nEnter answer number: ", &ob.name);
 	}
 	else
 	{
-		printf("File already exist. Replace?\n\t1 - Yes\n\t2 - Yes, for all\n\t3 - Skip\n\t4 - Cancel\nEnter answer number: ");
+		printf("File %s already exist. Replace?\n\t1 - Yes\n\t2 - Yes, for all\n\t3 - Skip\n\t4 - Cancel\nEnter answer number: ", &ob.name);
 	}
 	int choice = NULL;
 	scanf_s("%d", &choice);
@@ -53,6 +55,8 @@ int answerInterpretation(const _finddata_t& ob){
 	}
 }
 
+
+
 bool allFileCopy(std::string fromPath, std::string toPath, int choice){ //Метод копирования файлов
 	_finddata_t searchResultQueueFrom;
 	_finddata_t searchResultQueueTo;
@@ -71,6 +75,7 @@ bool allFileCopy(std::string fromPath, std::string toPath, int choice){ //Метод 
 	endFlag = _findnext(done, &searchResultQueueFrom);
 	std::ofstream inFile;
 	std::ifstream fromFile;
+
 	while (endFlag != -1){
 		if (searchResultQueueFrom.attrib == _A_SUBDIR){ //Проверяем наличие поддиректории
 			std::string folderName = (const char*)searchResultQueueFrom.name;
@@ -86,28 +91,51 @@ bool allFileCopy(std::string fromPath, std::string toPath, int choice){ //Метод 
 				}
 			}
 			else{ //Если есть - уточняем, хочет ли пользователь совместить дирректории
-				if (choice == 1 || choice == 0){ //Задаем повторный вопрос если пользователь согласился на однократную замену, или если замена будет происходить впервые
+				if (choice == 1 || choice == 0){ //Задаем рекурсивный повторный вопрос, если пользователь согласился на однократную замену, или если замена будет происходить впервые
 					choice = answerInterpretation(tempData);
 				}
 				if (choice == 3){ //Если пользователь хочет пропустить папку, прерываем работу функции
-					return true; 
+					_findclose(localDone);
+					return true;
 				}
 				if (choice == 4){ //Если выбрал отмену - прерываем программу
+					_findclose(localDone);
 					throw std::exception("Operation aborted by user.\n");
 				}
 				//Если пользователь согласился на постоянную замену, перестаем задавать вопрос и пропускаем выполнение дальше
 			}
 			allFileCopy(newFromPath, newToPath, choice); //Запускаем рекурсивно функцию для копирования
+			_findclose(localDone);//Удаляем результаты поиска из памяти
 		}
 
-		else{
+		else{ //Для файлов
 			std::string filename = (const char*)searchResultQueueFrom.name;
 			std::string fromPathFull = fromPath + "\\" + filename;
 			std::string toPathFull = toPath + "\\" + filename;
-			//printf("Copying from %s to %s.\n", &fromPath, &toPath);
-			std::cout << "From " << fromPathFull << " to " << toPathFull << std::endl;
+			//Проверяем наличие аналогичного файла в месте назначения
+			_finddata_t fileData;
+			long filesDone = _findfirst(toPathFull.c_str(), &fileData);
+			if (filesDone != -1){ //Если файл существует
+				if (SAVE_CHOICE_STATE == false){ //Если не нужно заменять все файлы, то проверить, не появилась ли такая необходимость.
+					int answer = answerInterpretation(fileData);
+					if (answer == 2){ //Если появилась - установить флаг о постоянном пропуске
+						SAVE_CHOICE_STATE = true;
+					}
+					if (answer == 3){
+						endFlag = _findnext(done, &searchResultQueueFrom);
+						_findclose(filesDone);
+						continue;
+					}
+					if (answer == 4){
+						throw std::exception("Operation aborted by user.\n");
+					}
+				}
+			}
+			printf("Copying from %s to %s.\n", &fromPath, &toPath);
+			//std::cout << "From " << fromPathFull << " to " << toPathFull << std::endl;
 			fromFile.open(fromPathFull, std::ios::in | std::ios::binary);
 			inFile.open(toPathFull, std::ios::out | std::ios::binary);
+
 			if (!fromFile.is_open()){
 				throw std::exception("Error: access to file.\n");
 			}
@@ -123,6 +151,8 @@ bool allFileCopy(std::string fromPath, std::string toPath, int choice){ //Метод 
 		}
 		endFlag = _findnext(done, &searchResultQueueFrom);
 	}
+	_findclose(done);
+	_findclose(doneTo);
 	return true;
-	
+
 }
