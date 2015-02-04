@@ -12,9 +12,9 @@ int main(){
 	std::string userPathFrom = "D:\\test";
 	std::string userPathTo = "D:\\test2";
 	//std::cout << userPathFrom;
-	CopyHandle ob(userPathFrom,userPathTo);
+	//allFileCopy(userPathFrom, userPathTo);
 	try{
-		ob.allFileCopy();
+		allFileCopy(userPathFrom,userPathTo);
 	}
 	catch (std::exception ex){
 		printf("%s\n", ex.what());
