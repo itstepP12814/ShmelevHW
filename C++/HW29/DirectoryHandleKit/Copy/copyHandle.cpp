@@ -16,6 +16,15 @@ bool SAVE_CHOICE_STATE = false;
 //	return searchResultQueue;
 //}
 
+void pathCheck(char* path){
+	int index = strlen(path) - 1;
+	while (path[index] == '\\' || path[index] == ' '){
+		--index;
+	}
+	strncpy(path, path, index);
+	path[index + 1] = '\0';
+}
+
 bool showSearchResult(_finddata_t searchResultQueue, long done){ //Показ результатов поиска
 	int endFlag = done;
 	while (endFlag != -1){
@@ -54,8 +63,6 @@ int answerInterpretation(const _finddata_t& ob){
 		break;
 	}
 }
-
-
 
 bool allFileCopy(std::string fromPath, std::string toPath, int choice){ //Метод копирования файлов
 	_finddata_t searchResultQueueFrom;

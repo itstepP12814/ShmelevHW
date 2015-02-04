@@ -8,3 +8,4 @@
 
 bool showSearchResult(_finddata_t& searchResultQueue, long& done);
 bool allFileCopy(std::string fromPath, std::string toPath, int choice);
+void pathCheck(char* path);

@@ -8,12 +8,14 @@
 */
 
 #include "copyHandle.h"
-int main(){
+int main(int argc, char* argv[]){
 
-	std::string userPathFrom = "D:\\test";
-	std::string userPathTo = "D:\\test2";
+	std::string userPathFrom = argv[1];
+	std::string userPathTo = argv[2];
 	//std::cout << userPathFrom;
 	//allFileCopy(userPathFrom, userPathTo);
+	//userPathFrom = pathCheck(userPathFrom.c_str());
+	//userPathTo = pathCheck(userPathFrom.c_str());
 	try{
 		allFileCopy(userPathFrom,userPathTo,0);
 	}
