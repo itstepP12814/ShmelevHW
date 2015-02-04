@@ -23,9 +23,37 @@ bool showSearchResult(_finddata_t searchResultQueue, long done){ //Показ результ
 	return true;
 }
 
+int answerInterpretation(const _finddata_t& ob){
+	if (ob.attrib == _A_SUBDIR){
+		printf("Destination folder already exist. Combine?\n\t1 - Yes\n\t2 - Yes, for all\n\t3 - Skip\n\t4 - Cancel\nEnter answer number: ");
+	}
+	else
+	{
+		printf("File already exist. Replace?\n\t1 - Yes\n\t2 - Yes, for all\n\t3 - Skip\n\t4 - Cancel\nEnter answer number: ");
+	}
+	int choice = NULL;
+	scanf_s("%d", &choice);
+	switch (choice){
+	case 1:
+		return 1;
+		break;
+	case 2:
+		return 2;
+		break;
+	case 3:
+		return 3;
+		break;
+	case 4:
+		return 4;
+		break;
+	default:
+		printf("Wrong choice. Try again.\n");
+		answerInterpretation(ob);
+		break;
+	}
+}
 
-
-bool allFileCopy(std::string fromPath, std::string toPath){ //Метод копирования файлов
+bool allFileCopy(std::string fromPath, std::string toPath, int choice){ //Метод копирования файлов
 	_finddata_t searchResultQueueFrom;
 	_finddata_t searchResultQueueTo;
 	long done = _findfirst((fromPath + "\\*").c_str(), &searchResultQueueFrom);
@@ -57,7 +85,19 @@ bool allFileCopy(std::string fromPath, std::string toPath){ //Метод копирования 
 					throw std::exception("Can't create dirrectory for copying.\n");
 				}
 			}
-			allFileCopy(newFromPath, newToPath); //Запускаем рекурсивно функцию для копирования
+			else{ //Если есть - уточняем, хочет ли пользователь совместить дирректории
+				if (choice == 1 || choice == 0){ //Задаем повторный вопрос если пользователь согласился на однократную замену, или если замена будет происходить впервые
+					choice = answerInterpretation(tempData);
+				}
+				if (choice == 3){ //Если пользователь хочет пропустить папку, прерываем работу функции
+					return true; 
+				}
+				if (choice == 4){ //Если выбрал отмену - прерываем программу
+					throw std::exception("Operation aborted by user.\n");
+				}
+				//Если пользователь согласился на постоянную замену, перестаем задавать вопрос и пропускаем выполнение дальше
+			}
+			allFileCopy(newFromPath, newToPath, choice); //Запускаем рекурсивно функцию для копирования
 		}
 
 		else{

@@ -14,7 +14,7 @@ int main(){
 	//std::cout << userPathFrom;
 	//allFileCopy(userPathFrom, userPathTo);
 	try{
-		allFileCopy(userPathFrom,userPathTo);
+		allFileCopy(userPathFrom,userPathTo,0);
 	}
 	catch (std::exception ex){
 		printf("%s\n", ex.what());

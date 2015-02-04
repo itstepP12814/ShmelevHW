@@ -7,4 +7,4 @@
 #include <direct.h>
 
 bool showSearchResult(_finddata_t& searchResultQueue, long& done);
-bool allFileCopy(std::string fromPath, std::string toPath);
+bool allFileCopy(std::string fromPath, std::string toPath, int choice);
