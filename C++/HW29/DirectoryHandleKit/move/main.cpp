@@ -1,8 +1,12 @@
 #include "moveHandle.h"
 
-int main(int argc, char* argv[]){
-	std::string userPathFrom = argv[1];
-	std::string userPathTo = argv[2];
+//int main(int argc, char* argv[]){
+//	std::string userPathFrom = argv[1];
+//	std::string userPathTo = argv[2];
+
+int main(){
+	std::string userPathFrom = "D:\\test3";
+	std::string userPathTo = "D:\\test";
 
 	try{
 		moveAll(userPathFrom, userPathTo,0);
