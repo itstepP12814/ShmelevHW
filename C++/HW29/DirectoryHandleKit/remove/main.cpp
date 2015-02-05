@@ -1,11 +1,7 @@
 #include "removeHandle.h"
 
-//int main(int argc, char* argv[]){
-//	std::string userPath = argv[1];
-
 int main(int argc, char* argv[]){
-	std::string userPath = "D:\\Homebank2";
-	
+	std::string userPath = argv[1];
 	try{
 		removeDirrectory(userPath,0);
 		int dirRemoveCheck = _rmdir(userPath.c_str());
