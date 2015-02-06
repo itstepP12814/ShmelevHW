@@ -2,8 +2,8 @@
 
 int main(){
 	Catalog ob;
+	ob.addNew();
 	ob.showAll();
-	//ob.showAll();
 	printf("lol");
 	return 0;
 }

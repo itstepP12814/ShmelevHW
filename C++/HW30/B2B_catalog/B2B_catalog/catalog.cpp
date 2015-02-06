@@ -18,7 +18,7 @@ void Catalog::addNew(){
 	std::cin >> newItem.lineOfBusiness;
 
 	std::cout << newItem.nameCorp << " " << newItem.owner << " " << newItem.phone << " " << newItem.address << " " << newItem.lineOfBusiness << std::endl;
-	outFile << "\n" << newItem.nameCorp << ";" << newItem.owner << ";" << newItem.phone << ";" << newItem.address << ";" << newItem.lineOfBusiness;
+	outFile << "\n" << newItem.nameCorp << ";" << newItem.owner << ";" << newItem.phone << ";" << newItem.address << ";" << newItem.lineOfBusiness << ";";
 	outFile.close();
 }
 
@@ -59,7 +59,7 @@ void Catalog::showAll(){
 	}
 
 	for (int i = 0; i < DB_array.size(); ++i){
-		std::cout << DB_array[i].nameCorp << " " << DB_array[i].owner << std::endl;
+		std::cout << DB_array[i].nameCorp << " " << DB_array[i].owner << " " << DB_array[i].phone << " " << DB_array[i].address << " " << DB_array[i].lineOfBusiness << std::endl;
 	}
 
 }
