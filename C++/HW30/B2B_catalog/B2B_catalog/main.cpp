@@ -2,8 +2,8 @@
 
 int main(){
 	Catalog ob;
-	ob.addNew();
-	ob.showAll();
-	printf("lol");
+	ob.readDB();
+	ob.search("kostya", 2);
+	//ob.showAll();
 	return 0;
 }

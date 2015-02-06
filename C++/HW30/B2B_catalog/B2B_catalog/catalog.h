@@ -24,6 +24,8 @@ public:
 	size_t sizeBD = 0;
 	void addNew();
 	void showAll();
+	void readDB();
+	void search(const std::string& needle, int trigger);
 	Catalog(){};
 	virtual ~Catalog(){};
 };

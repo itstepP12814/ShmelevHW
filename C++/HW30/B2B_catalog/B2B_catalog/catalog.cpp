@@ -22,7 +22,7 @@ void Catalog::addNew(){
 	outFile.close();
 }
 
-void Catalog::showAll(){
+void Catalog::readDB(){
 	std::ifstream inFile(filename, std::ios::in);
 	if (!inFile.is_open()){
 		throw std::exception("Error: Can't open file to read.\n");
@@ -57,9 +57,76 @@ void Catalog::showAll(){
 		}
 		DB_array.push_back(newItem);
 	}
+}
 
-	for (int i = 0; i < DB_array.size(); ++i){
-		std::cout << DB_array[i].nameCorp << " " << DB_array[i].owner << " " << DB_array[i].phone << " " << DB_array[i].address << " " << DB_array[i].lineOfBusiness << std::endl;
+void Catalog::showAll(){
+	if (!DB_array.empty()){
+		for (int i = 0; i < DB_array.size(); ++i){
+			std::cout << DB_array[i].nameCorp << " " << DB_array[i].owner << " " << DB_array[i].phone << " " << DB_array[i].address << " " << DB_array[i].lineOfBusiness << std::endl;
+		}
+	}
+	else{
+		std::cerr << "Error: No DataBase.\n";
 	}
 
+}
+
+void Catalog::search(const std::string& needle, int trigger){
+	size_t check = -1;
+	int result = -1;
+	switch (trigger)
+	{
+	case 1:
+		for (int i = 0; i < DB_array.size(); ++i){
+			check = DB_array[i].nameCorp.find(needle);
+			if (check != -1){
+				result = i;
+				break;
+			}
+		}
+		break;
+	case 2:
+		for (int i = 0; i < DB_array.size(); ++i){
+			check = DB_array[i].owner.find(needle);
+			if (check != -1){
+				result = i;
+				break;
+			}
+		}
+		break;
+	case 3:
+		for (int i = 0; i < DB_array.size(); ++i){
+			check = DB_array[i].phone.find(needle);
+			if (check != -1){
+				result = i;
+				break;
+			}
+		}
+		break;
+	case 4:
+		for (int i = 0; i < DB_array.size(); ++i){
+			check = DB_array[i].address.find(needle);
+			if (check != -1){
+				result = i;
+				break;
+			}
+		}
+		break;
+	case 5:
+		for (int i = 0; i < DB_array.size(); ++i){
+			check = DB_array[i].lineOfBusiness.find(needle);
+			if (check != -1){
+				result = i;
+				break;
+			}
+		}
+		break;
+	default:
+		std::cerr << "Error: Wrong choice. Please try again.\n";
+		break;
+	}
+	
+	if (check != -1){
+		std::cout << "Founded: \n" << DB_array[result].nameCorp << std::endl << DB_array[result].owner << std::endl << DB_array[result].phone << std::endl << DB_array[result].address << std::endl << DB_array[result].lineOfBusiness << std::endl;
+	}
 }
