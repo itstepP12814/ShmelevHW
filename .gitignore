@@ -49,4 +49,5 @@ App_data/
 Thumbs.db
 # Folder config file
 Desktop.ini
-.directory
+*.directory
+*.sdf
