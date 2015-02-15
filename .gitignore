@@ -43,7 +43,6 @@ design/
 Web.config
 *.publishproj
 App_data/
-*.sln
 *.suo
 # Windows image file caches
 Thumbs.db
