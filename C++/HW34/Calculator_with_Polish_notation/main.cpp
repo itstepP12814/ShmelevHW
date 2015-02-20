@@ -1,21 +1,28 @@
 #include <iostream>
 #include <stack>
 #include <vector>
-
+#include <string>
 using namespace std;
 
 const int handleExpression(string expression){
 	vector <string> exprStrings;
-	for (string::iterator itr = expression.begin(); itr != expression.end(); ++itr){
-		if (&(*itr) != " " && &(*itr) != "+" && &(*itr) != "-" && &(*itr) != "=" && &(*itr) != "*" && &(*itr) != "/"){
-			exprStrings.push_back(&(*itr));
-		}
-		else{
-			if (&(*itr) != " "){
-
-			}
+	stack <int> polkaStack;
+	for (unsigned int i = 0; i < expression.length(); ++i){
+		if (expression[i] != ' '){
+			string temp = expression.substr(i, 1);
+			exprStrings.push_back(temp);
 		}
 	}
+	for (vector<string>::iterator itr = exprStrings.begin(); itr != exprStrings.end(); ++itr){
+		if (*itr != " " && *itr != "+" && *itr != "-" && *itr != "=" && *itr != "*" && *itr != "/"){
+			size_t sz;
+			polkaStack.push(stoi(*itr));
+		}
+		else{
+
+		}
+	}
+	return 10;
 }
 
 int main(){
@@ -23,3 +30,5 @@ int main(){
 	handleExpression(str);
 	return 0;
 }
+
+//		if (&(*itr) != " " && &(*itr) != "+" && &(*itr) != "-" && &(*itr) != "=" && &(*itr) != "*" && &(*itr) != "/"){
