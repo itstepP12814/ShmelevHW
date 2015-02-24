@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shelude.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shelude.h" />
