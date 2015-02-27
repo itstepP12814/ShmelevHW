@@ -76,10 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entertainment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shelude.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entertainment.h" />
     <ClInclude Include="Shelude.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

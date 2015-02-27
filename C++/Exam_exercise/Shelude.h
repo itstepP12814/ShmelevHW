@@ -4,7 +4,10 @@
 #include <map>
 #include <vector>
 #include <fstream>
+#include <iostream>
 using namespace std; 
+
+class Entertainment;
 
 class Shelude
 {
@@ -20,14 +23,15 @@ private:
 			open_time.tm_hour = open_hour;
 			open_time.tm_min = open_minute;
 			close_time.tm_hour = close_hour;
-			close_time.tm_hour = close_minute;
+			close_time.tm_min = close_minute;
 			/*cout << open_time.tm_hour << endl;
 			cout << open_time.tm_min << endl;
 			cout << close_time.tm_hour << endl;
 			cout << close_time.tm_hour << endl;*/
 		}
-
-	private:
+		tm getOpenTime(){ return open_time; }
+		tm getCloseTime(){ return close_time; }
+	protected:
 		int open_hour;
 		int open_minute;
 		int close_hour;
@@ -42,14 +46,18 @@ private:
 
 	const int numberDaysInWeek = 7;
 	map <string, workTime> time;
-public:
+	workTime* timeInfo;
 
+protected:
 	Shelude(const string filename);
 	~Shelude(){}
+
+public:
+	friend Entertainment;
+	map <string, vector <tm>> getShelude();
 
 	void setDayTime(const string day, int _open_hour, int _open_minute, int _close_hour, int _close_minute){
 		workTime dayTime(_open_hour, _open_minute, _close_hour, _close_minute);
 		time[day] = dayTime;
 	}
 };
-
