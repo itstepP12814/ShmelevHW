@@ -20,25 +20,22 @@ private:
 		workTime(int _open_hour, int _open_minute, int _close_hour, int _close_minute) :
 			open_hour(_open_hour), open_minute(_open_minute), close_hour(_close_hour), close_minute(_close_minute)
 		{
-			open_time.tm_hour = open_hour;
-			open_time.tm_min = open_minute;
-			close_time.tm_hour = close_hour;
-			close_time.tm_min = close_minute;
-			/*cout << open_time.tm_hour << endl;
-			cout << open_time.tm_min << endl;
-			cout << close_time.tm_hour << endl;
-			cout << close_time.tm_hour << endl;*/
+			if (open_hour >= -1 && open_hour < 24 && open_minute >= -1 && open_minute < 60 && close_hour >= -1 && close_hour < 24 && close_minute >= -1 && close_minute < 60){
+				if (open_hour == -1 && open_minute == -1 && close_hour == -1 && close_minute == -1){
+					nullflag = true;
+				}
+			}
+			else{
+				throw exception("Error: wrong time format fetched from the shelude file.\n");
+			}
 		}
-		tm getOpenTime(){ return open_time; }
-		tm getCloseTime(){ return close_time; }
-	protected:
+		bool getNullFlagStatus(){ return nullflag; }
+
+		bool nullflag = false;
 		int open_hour;
 		int open_minute;
 		int close_hour;
 		int close_minute;
-
-		tm open_time;
-		tm close_time;
 	};
 
 	vector<workTime> arrayOfTime;
@@ -54,7 +51,7 @@ protected:
 
 public:
 	friend Entertainment;
-	map <string, vector <tm>> getShelude();
+	map <string, vector <int>> getShelude();
 
 	void setDayTime(const string day, int _open_hour, int _open_minute, int _close_hour, int _close_minute){
 		workTime dayTime(_open_hour, _open_minute, _close_hour, _close_minute);

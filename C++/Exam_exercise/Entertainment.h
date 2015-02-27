@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Shelude.h"
 #include <iostream>
 class Entertainment
@@ -18,13 +18,11 @@ protected:
 public:
 	string name;
 	int capacity;
-	map <string, vector <tm>> getOrgShelude(){
-		/*map <string, vector <tm>> temp = workTime->getShelude();
-		for (auto p : temp){
-			cout << p.first << ": " << p.second[0].tm_hour << ":" << p.second[0].tm_min << " - " << p.second[1].tm_hour << ":" << p.second[1].tm_min << endl;
-		}*/
+	map <string, vector <int>> getOrgShelude(){
 		return workTime->getShelude();
 	}
+	string getName(){ return name; }
+	int getCapacity(){ return capacity; }
 };
 
 class Stadium : public Entertainment{
