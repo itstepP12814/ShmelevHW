@@ -36,9 +36,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 		MB_OK | MB_ICONINFORMATION
 		);
 	
-	int commonLenght = lstrlen(name) + lstrlen(age) + lstrlen(specialization);
+	double commonLenght = lstrlen(name) + lstrlen(age) + lstrlen(specialization);
+	commonLenght /= 3;
 	TCHAR numberOfWideChars[100];
-	swprintf_s(numberOfWideChars, 100, TEXT("%d"), commonLenght);
+	swprintf_s(numberOfWideChars, 100, TEXT("%f"), commonLenght);
 	MessageBox(
 		0,
 		numberOfWideChars,

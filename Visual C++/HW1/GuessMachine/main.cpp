@@ -2,19 +2,21 @@
 // которые используются при написании приложений под Windows. 
 #include <windows.h>
 #include <tchar.h>
-#include <Winuser.h>
-#include <windowsx.h>
+#include <time.h>
+#include <stdlib.h>
+using namespace std;
 
 // прототип оконной процедуры
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
 TCHAR szClassWindow[] = TEXT("Каркасное приложение");	/* Имя класса окна */
 
-INT WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, int nCmdShow)
+INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int nCmdShow)
 {
 	HWND hWnd;
-	MSG Msg;
+	MSG lpMsg;
 	WNDCLASSEX wcl;
+	srand(time(NULL));
 
 	// 1. Определение класса окна
 	wcl.cbSize = sizeof(wcl);	// размер структуры WNDCLASSEX
@@ -52,61 +54,74 @@ INT WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, i
 		hInst,		// идентификатор приложения, создавшего окно
 		NULL);		// указатель на область данных приложения
 
+	HWND button = CreateWindow(
+		TEXT("BUTTON"),
+		TEXT("Угадать число"),
+		WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_DEFPUSHBUTTON,
+		200,
+		200,
+		400,
+		150,
+		hWnd,
+		(HMENU)100,
+		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
+		NULL);
+
 	// 4. Отображение окна
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd); // перерисовка окна
 
 	// 5. Запуск цикла обработки сообщений
-	while (GetMessage(&Msg, NULL, 0, 0)) // получение очередного сообщения из очереди сообщений
+
+	while (GetMessage(&lpMsg, NULL, 0, 0)) // получение очередного сообщения из очереди сообщений
 	{
-		TranslateMessage(&Msg);	// трансляция сообщения
-		DispatchMessage(&Msg);	// диспетчеризация сообщений
+		TranslateMessage(&lpMsg);	// трансляция сообщения
+		DispatchMessage(&lpMsg);	// диспетчеризация сообщений
 	}
-	return Msg.wParam;
+	return lpMsg.wParam;
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
+	int result = 0;
+	TCHAR* title = TEXT("Результат угадывания");
 	switch (uMessage)
 	{
-	case WM_MOUSEMOVE:
-	{
-						  TCHAR buf[100];
-						  int y = GET_Y_LPARAM(lParam);
-						  int x = GET_X_LPARAM(lParam);
-						  wsprintf(buf, TEXT("Вертикаль: %d, Горизонталь: %d"), x, y);
-						  SetWindowText(hWnd, buf);
+	case WM_COMMAND:
+	if(LOWORD(wParam) == 100){
+		TCHAR guessResult[100];
+		int guessCounter = 0;
+		while (result != IDCANCEL){
+			double numResult = rand() % 100 + 1;
+			swprintf(guessResult, TEXT("%f"), numResult);
+			result = MessageBox(
+				hWnd,
+				guessResult,
+				title,
+				MB_YESNOCANCEL | MB_ICONQUESTION
+				);
+			if (result == IDNO){
+				++guessCounter;
+				continue;
+			}
+			if (result == IDYES){
+				++guessCounter;
+				TCHAR resultInfo[100];
+				swprintf_s(resultInfo, 100, TEXT("Мы отгадали ваше число! Нам понадобилось для этого %f попыток)"), guessCounter);
+				MessageBox(
+					hWnd,
+					resultInfo,
+					TEXT("Получилось!"),
+					MB_OK | MB_ICONINFORMATION
+					);
+				break;
+			}
+			MessageBox(0, TEXT("Извините, мы старались..."), TEXT("Не получилось"), MB_OK | MB_ICONINFORMATION);
+			break;
+		}
 	}
 		break;
-	case WM_CLOSE:
-	{
-		int res = MessageBox(
-			0,
-			TEXT("Вы действительно хотите?"),
-			TEXT("Скажите пожалуйста!"),
-			MB_YESNO | MB_ICONINFORMATION);
-
-		if (res == IDYES){
-			res = MessageBox(
-				0,
-				TEXT("Не, ну вы уверены?"),
-				TEXT("Скажите пожалуйста!"),
-				MB_YESNO | MB_ICONINFORMATION);
-
-			if (res == IDYES){
-				res = MessageBox(
-					0,
-					TEXT("Не, ну вы уверены?"),
-					TEXT("Скажите пожалуйста!"),
-					MB_YESNO | MB_ICONINFORMATION);
-				if (res == IDYES){
-					DestroyWindow(hWnd);
-				}
-			}
-		}
-	} break;
 	case WM_DESTROY: // сообщение о завершении программы
-		//
 		PostQuitMessage(0); // посылка сообщения WM_QUIT
 		break;
 	default:
