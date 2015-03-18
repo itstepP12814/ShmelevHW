@@ -2,6 +2,10 @@
 #include <windows.h>
 #include "resource.h"
 #include <tchar.h>
+#define TIMER_LEFT 'left'
+#define TIMER_RIGHT 'r'
+#define TIMER_UP 'up'
+#define TIMER_DOWN 'down'
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -40,6 +44,49 @@ int WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, i
 	return Msg.wParam;
 }	
 
+VOID CALLBACK TimerProc(
+	HWND hwnd,        // handle to window for timer messages 
+	UINT message,     // WM_TIMER message 
+	UINT idTimer,     // timer identifier 
+	DWORD dwTime)     // current system time 
+{
+	RECT wP;
+	hwnd = FindWindow(TEXT("CalcFrame"), NULL);
+	GetWindowRect(hwnd, &wP);
+	int height = wP.bottom - wP.top;
+	int width = wP.right - wP.left;
+	//Определение разрешения монитора
+	HDC hDCScreen = GetDC(NULL);
+	int Horres = GetSystemMetrics(SM_CXFULLSCREEN);
+	int Vertres = GetSystemMetrics(SM_CYSCREEN);
+	ReleaseDC(NULL, hDCScreen);
+	int speed = 10;
+		switch (idTimer)
+		{
+		case 'left':
+			if (wP.left >= 0){
+				MoveWindow(hwnd, wP.left - speed, wP.top, width, height, true);
+			}
+			break;
+		case 'r':
+			if (wP.left <= Vertres - width){
+				MoveWindow(hwnd, wP.left + speed, wP.top, width, height, true);
+			}
+			break;
+		case 'up':
+			if (wP.top >= 0){
+				MoveWindow(hwnd, wP.left, wP.top - speed, width, height, true);
+			}
+			break;
+		case 'down':
+			if (wP.top <= Horres+height){
+				MoveWindow(hwnd, wP.left, wP.top + speed, width, height, true);
+			}
+			break;
+		default:
+			break;
+		}
+}
 
 LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -60,20 +107,39 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 				hCursor3 = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_POINTER_COPY));
 			}
 			break;
-		case WM_KEYDOWN:
-			if (wParam == '1'){
-				SetCursor(hCursor1);
-				SetClassLong(hWnd, GCL_HCURSOR, LONG(hCursor1));
-			}
-			if (wParam == '2'){
-				SetCursor(hCursor2);
-				SetClassLong(hWnd, GCL_HCURSOR, LONG(hCursor2));
-			}
-			if (wParam == '3'){
-				SetCursor(hCursor2);
-				SetClassLong(hWnd, GCL_HCURSOR, LONG(hCursor3));
-			}
-			break;
+		case WM_KEYDOWN:{
+							KillTimer(hWnd, TIMER_LEFT);
+							KillTimer(hWnd, TIMER_RIGHT);
+							KillTimer(hWnd, TIMER_UP);
+							KillTimer(hWnd, TIMER_DOWN);
+							if (wParam == '1'){
+								SetCursor(hCursor1);
+								SetClassLongPtr(hWnd, GCL_HCURSOR, LONG(hCursor1)); //Заменяет хендл ресурса в окне
+							}
+							if (wParam == '2'){
+								SetCursor(hCursor2);
+								SetClassLongPtr(hWnd, GCL_HCURSOR, LONG(hCursor2));
+							}
+							if (wParam == '3'){
+								SetCursor(hCursor3);
+								SetClassLongPtr(hWnd, GCL_HCURSOR, LONG(hCursor3));
+							}
+							if (wParam == VK_LEFT)
+								SetTimer(hWnd, TIMER_LEFT, 1, TimerProc); //Устанавливаем таймер для перемещения окна
+							if (wParam == VK_RIGHT)
+								SetTimer(hWnd, TIMER_RIGHT, 1, TimerProc);
+							if (wParam == VK_UP)
+								SetTimer(hWnd, TIMER_UP, 1, TimerProc);
+							if (wParam == VK_DOWN)
+								SetTimer(hWnd, TIMER_DOWN, 1, TimerProc);
+							if (wParam == VK_BACK){
+								KillTimer(hWnd, TIMER_LEFT);
+								KillTimer(hWnd, TIMER_RIGHT);
+								KillTimer(hWnd, TIMER_UP);
+								KillTimer(hWnd, TIMER_DOWN);
+							}
+							break;
+		}
 		//case WM_MOUSEMOVE:
 		//	{
 		//		// устанавливаем тот или иной курсор в зависимости от местонахождения указателя мыши
@@ -93,4 +159,3 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	}
 	return 0;
 }
-
