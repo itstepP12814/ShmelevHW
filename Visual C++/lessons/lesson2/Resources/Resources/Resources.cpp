@@ -1,4 +1,4 @@
-/*При нажатии на кнопки 1 2 3 менять изображение курсора*/
+п»ї/*РџСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРЅРѕРїРєРё 1 2 3 РјРµРЅСЏС‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР°*/
 #include <windows.h>
 #include "resource.h"
 #include <tchar.h>
@@ -9,7 +9,7 @@
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
-TCHAR szClassWindow[] = TEXT("Каркасное приложение");
+TCHAR szClassWindow[] = TEXT("РљР°СЂРєР°СЃРЅРѕРµ РїСЂРёР»РѕР¶РµРЅРёРµ");
 HICON hIcon;
 HCURSOR hCursor1, hCursor2, hCursor3;
 
@@ -24,15 +24,15 @@ int WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, i
 	wcl.cbClsExtra = 0;	
 	wcl.cbWndExtra = 0; 	
 	wcl.hInstance = hInst;	
-	wcl.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1)); // иконка загружается из ресурсов приложения	
-	wcl.hCursor = LoadCursor(hInst, MAKEINTRESOURCE(IDC_CURSOR1));	// курсор загружается из ресурсов приложения	
+	wcl.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1)); // РёРєРѕРЅРєР° Р·Р°РіСЂСѓР¶Р°РµС‚СЃСЏ РёР· СЂРµСЃСѓСЂСЃРѕРІ РїСЂРёР»РѕР¶РµРЅРёСЏ	
+	wcl.hCursor = LoadCursor(hInst, MAKEINTRESOURCE(IDC_CURSOR1));	// РєСѓСЂСЃРѕСЂ Р·Р°РіСЂСѓР¶Р°РµС‚СЃСЏ РёР· СЂРµСЃСѓСЂСЃРѕРІ РїСЂРёР»РѕР¶РµРЅРёСЏ	
 	wcl.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH); 
 	wcl.lpszMenuName = NULL;	
 	wcl.lpszClassName = szClassWindow;	
 	wcl.hIconSm = NULL;	
 	if (!RegisterClassEx(&wcl))
 		return 0;
-	hWnd = CreateWindowEx(0, szClassWindow, TEXT("Ресурсы"), WS_OVERLAPPEDWINDOW,	
+	hWnd = CreateWindowEx(0, szClassWindow, TEXT("Р РµСЃСѓСЂСЃС‹"), WS_OVERLAPPEDWINDOW,	
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInst, NULL);
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
@@ -55,11 +55,11 @@ VOID CALLBACK TimerProc(
 	GetWindowRect(hwnd, &wP);
 	int height = wP.bottom - wP.top;
 	int width = wP.right - wP.left;
-	//Определение разрешения монитора
-	HDC hDCScreen = GetDC(NULL);
+	//РћРїСЂРµРґРµР»РµРЅРёРµ СЂР°Р·СЂРµС€РµРЅРёСЏ РјРѕРЅРёС‚РѕСЂР°
+	//HDC hDCScreen = GetDC(NULL);
 	int Horres = GetSystemMetrics(SM_CXFULLSCREEN);
 	int Vertres = GetSystemMetrics(SM_CYSCREEN);
-	ReleaseDC(NULL, hDCScreen);
+	//ReleaseDC(NULL, hDCScreen);
 	int speed = 10;
 		switch (idTimer)
 		{
@@ -97,11 +97,11 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			break;
 		case WM_CREATE:
 			{
-				// получаем дескриптор приложения
+				// РїРѕР»СѓС‡Р°РµРј РґРµСЃРєСЂРёРїС‚РѕСЂ РїСЂРёР»РѕР¶РµРЅРёСЏ
 				HINSTANCE hInstance = GetModuleHandle(0); 
-				// загружаем иконку из ресурсов приложения
+				// Р·Р°РіСЂСѓР¶Р°РµРј РёРєРѕРЅРєСѓ РёР· СЂРµСЃСѓСЂСЃРѕРІ РїСЂРёР»РѕР¶РµРЅРёСЏ
 				hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON2)); 
-				// загружаем курсоры из ресурсов приложения
+				// Р·Р°РіСЂСѓР¶Р°РµРј РєСѓСЂСЃРѕСЂС‹ РёР· СЂРµСЃСѓСЂСЃРѕРІ РїСЂРёР»РѕР¶РµРЅРёСЏ
 				hCursor1 = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_CURSOR1));
 				hCursor2 = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_CURSOR2)); 
 				hCursor3 = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_POINTER_COPY));
@@ -114,7 +114,7 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 							KillTimer(hWnd, TIMER_DOWN);
 							if (wParam == '1'){
 								SetCursor(hCursor1);
-								SetClassLongPtr(hWnd, GCL_HCURSOR, LONG(hCursor1)); //Заменяет хендл ресурса в окне
+								SetClassLongPtr(hWnd, GCL_HCURSOR, LONG(hCursor1)); //Р—Р°РјРµРЅСЏРµС‚ С…РµРЅРґР» СЂРµСЃСѓСЂСЃР° РІ РѕРєРЅРµ
 							}
 							if (wParam == '2'){
 								SetCursor(hCursor2);
@@ -125,7 +125,7 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 								SetClassLongPtr(hWnd, GCL_HCURSOR, LONG(hCursor3));
 							}
 							if (wParam == VK_LEFT)
-								SetTimer(hWnd, TIMER_LEFT, 1, TimerProc); //Устанавливаем таймер для перемещения окна
+								SetTimer(hWnd, TIMER_LEFT, 1, TimerProc); //РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚Р°Р№РјРµСЂ РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ РѕРєРЅР°
 							if (wParam == VK_RIGHT)
 								SetTimer(hWnd, TIMER_RIGHT, 1, TimerProc);
 							if (wParam == VK_UP)
@@ -142,7 +142,7 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		}
 		//case WM_MOUSEMOVE:
 		//	{
-		//		// устанавливаем тот или иной курсор в зависимости от местонахождения указателя мыши
+		//		// СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С‚РѕС‚ РёР»Рё РёРЅРѕР№ РєСѓСЂСЃРѕСЂ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РјРµСЃС‚РѕРЅР°С…РѕР¶РґРµРЅРёСЏ СѓРєР°Р·Р°С‚РµР»СЏ РјС‹С€Рё
 		//		RECT rect;
 		//		GetClientRect(hWnd, &rect);
 		//		int x = LOWORD(lParam);
