@@ -57,7 +57,7 @@ VOID CALLBACK TimerProc(
 	int width = wP.right - wP.left;
 	//Определение разрешения монитора
 	//HDC hDCScreen = GetDC(NULL);
-	int Horres = GetSystemMetrics(SM_CXFULLSCREEN);
+	int Horres = GetSystemMetrics(SM_CXSCREEN);
 	int Vertres = GetSystemMetrics(SM_CYSCREEN);
 	//ReleaseDC(NULL, hDCScreen);
 	int speed = 10;
