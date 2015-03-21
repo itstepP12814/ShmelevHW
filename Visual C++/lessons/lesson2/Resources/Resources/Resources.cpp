@@ -51,16 +51,20 @@ VOID CALLBACK TimerProc(
 	DWORD dwTime)     // current system time 
 {
 	RECT wP;
-	hwnd = FindWindow(TEXT("CalcFrame"), NULL);
-	GetWindowRect(hwnd, &wP);
-	int height = wP.bottom - wP.top;
-	int width = wP.right - wP.left;
-	//Определение разрешения монитора
-	//HDC hDCScreen = GetDC(NULL);
-	int Horres = GetSystemMetrics(SM_CXSCREEN);
-	int Vertres = GetSystemMetrics(SM_CYSCREEN);
-	//ReleaseDC(NULL, hDCScreen);
-	int speed = 10;
+	UINT error;
+	//hwnd = FindWindow(TEXT("CalcFrame"), NULL);
+	hwnd = FindWindow(TEXT("OloloWindow"), NULL);
+	if (hwnd != NULL)
+{
+		GetWindowRect(hwnd, &wP);
+		int height = wP.bottom - wP.top;
+		int width = wP.right - wP.left;
+		//Определение разрешения монитора
+		//HDC hDCScreen = GetDC(NULL);
+		int Horres = GetSystemMetrics(SM_CXSCREEN);
+		int Vertres = GetSystemMetrics(SM_CYSCREEN);
+		//ReleaseDC(NULL, hDCScreen);
+		int speed = 10;
 		switch (idTimer)
 		{
 		case 'left':
@@ -79,13 +83,18 @@ VOID CALLBACK TimerProc(
 			}
 			break;
 		case 'down':
-			if (wP.top <= Horres+height){
+			if (wP.top <= Horres + height){
 				MoveWindow(hwnd, wP.left, wP.top + speed, width, height, true);
 			}
 			break;
 		default:
 			break;
 		}
+	}
+	else{
+		GetWindowRect(hwnd, &wP);
+		error = GetLastError();
+	}
 }
 
 LRESULT CALLBACK WindowProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
