@@ -4,11 +4,13 @@
 
 class GameField
 {
-private:
+public:
 	Coo fieldSize;
 	Coo deadLine;
+private:
 	Hero* galaxyDef;
 	vector <Enemy> arrayHorde;
+	vector <LaserRay> rayArray;
 	int numEnemies;
 	bool updateGameState(){
 		gameAI.moveEnemyShipsForward();
@@ -32,6 +34,10 @@ public:
 		}
 	};
 	~GameField(){};
+	bool createRay(Coo _shipCoo){
+		LaserRay tempRay(_shipCoo);
+		rayArray.push_back(tempRay);
+	}
 };
 
 class Game
@@ -49,6 +55,9 @@ public:
 	~Game()
 	{
 		delete currentField;
+	}
+	Coo getFieldSize(){
+		return currentGame->currentField->fieldSize;
 	}
 };
 

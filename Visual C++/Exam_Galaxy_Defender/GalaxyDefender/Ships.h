@@ -1,6 +1,14 @@
 ﻿#pragma once
 #include "MainHeader.h"
 
+class Move { //Как бы интерфейс
+protected:
+	virtual bool moveRight();
+	virtual bool moveLeft();
+	virtual bool moveForward();
+	virtual bool moveBack();
+};
+
 class SpaceShip
 {
 public:	
@@ -21,13 +29,16 @@ public:
 	void initialize(Hero* p);
 };
 
-class Hero : public SpaceShip //паттерн синглтон
+class Hero : public SpaceShip, Move //паттерн синглтон
+	//Создавать единственный обьект класса следует через функцию getInstance
 {
 private:
 	static Hero * p_instance;
 	static SingletonDestroyer destroyer;
 	// Конструкторы и оператор присваивания недоступны клиентам
-	Hero(int _x, int _y, int _health, int _moveSpeed) : SpaceShip(_x, _y, _health, _moveSpeed){}
+	Hero(int _x, int _y, int _health, int _moveSpeed) : SpaceShip(_x, _y, _health, _moveSpeed){
+		shipGun = new LaserGun();
+	}
 	Hero(const Hero&);
 	Hero& operator=(Hero&);
 	~Hero(){}
@@ -36,21 +47,46 @@ protected:
 	class LaserGun
 	{
 	public:
-		LaserGun(){};
+		int fireFreq;
+		LaserGun():fireFreq(FIRE_FREQ){};
 		~LaserGun(){};
-		class LaserRay
-		{
-		public:
-			LaserRay(){};
-			~LaserRay(){};
-		};
-		LaserRay* deathRay;
+		bool fire(Coo _shipCoo){
+			currentGame->currentField->createRay(_shipCoo);
+		}
 	};
 
 	LaserGun* shipGun;
 
 	static Hero& getInstance(int _x_, int _y_, int _health_, int _moveSpeed_);
 	static Hero& getInstance(void);
+	bool moveLeft();
+	bool moveRight();
+	bool fire(){
+		shipGun->fire(shipCoo);
+	}
+};
+
+class LaserRay : public Move
+{
+protected:
+	int width;
+	int heigth;
+	int raySpeed;
+	friend class LaserGun;
+	Coo rayCoo;
+public:
+	LaserRay(Coo _shipCoo) : width(1), heigth(1), rayCoo(_shipCoo){};
+	~LaserRay(){};
+	bool moveForward(){
+		if (rayCoo.y - (1 * raySpeed) <= currentGame->getFieldSize().y){
+			rayCoo.y -= (1 * raySpeed);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 };
 
 Hero* Hero::p_instance = 0;
@@ -76,3 +112,32 @@ Hero& Hero::getInstance(int _x_, int _y_, int _health_, int _moveSpeed_) {
 Hero& Hero::getInstance() {
 	return *p_instance;
 }
+
+bool Hero::moveLeft(){
+	if (shipCoo.x-(1*moveSpeed) >= 0)
+	{
+		shipCoo.x -= 1 * moveSpeed;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool Hero::moveRight(){
+	if (shipCoo.x + (1 * moveSpeed) >= currentGame->getFieldSize().x)
+	{
+		shipCoo.x += 1 * moveSpeed;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+
+class Enemy{
+public:
+	Enemy(){}
+	~Enemy(){}
+};

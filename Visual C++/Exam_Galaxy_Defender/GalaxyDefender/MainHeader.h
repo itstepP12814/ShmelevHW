@@ -12,12 +12,23 @@
 #define FULL_HEALTH 100
 #define ENEMY_SPEED 2000 //миллисекунд на клетку
 #define HERO_SPEED 500//миллисекунд на клетку
-
+#define FIRE_FREQ 100
 using namespace std;
 
 
-struct Coo
+class Coo
 {
+public:
 	int x;
 	int y;
+	Coo& operator=(Coo& ob){
+		x = ob.x;
+		y = ob.y;
+		return *this;
+	};
+	Coo (const Coo& object)
+	{
+		x = object.x;
+		y = object.y;
+	}
 };

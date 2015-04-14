@@ -1,6 +1,5 @@
 #include "MainHeader.h"
 
-
 Game* currentGame;
 
 BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp);
