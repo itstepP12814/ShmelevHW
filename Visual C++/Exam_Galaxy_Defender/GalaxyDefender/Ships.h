@@ -16,7 +16,8 @@ public:
 protected:
 	int moveSpeed;
 	int health;
-	SpaceShip(int _x, int _y, int _health, int _moveSpeed) :shipCoo{ _x, _y }, health(_health), moveSpeed(_moveSpeed){}
+	SpaceShip(int _x, int _y, int _health, int _moveSpeed) : shipCoo(_x,_y), health(_health), moveSpeed(_moveSpeed){
+	}
 	virtual ~SpaceShip(){}
 };
 
@@ -62,7 +63,7 @@ protected:
 	bool moveLeft();
 	bool moveRight();
 	bool fire(){
-		shipGun->fire(shipCoo);
+		this->shipGun->fire(Coo(shipCoo);
 	}
 };
 

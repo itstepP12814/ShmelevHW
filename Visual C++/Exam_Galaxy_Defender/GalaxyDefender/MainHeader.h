@@ -21,6 +21,8 @@ class Coo
 public:
 	int x;
 	int y;
+	Coo() :x(0), y(0){}
+	Coo(int _x, int _y) : x(_x), y(_y){}
 	Coo& operator=(Coo& ob){
 		x = ob.x;
 		y = ob.y;
