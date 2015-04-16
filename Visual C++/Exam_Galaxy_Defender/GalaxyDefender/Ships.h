@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "MainHeader.h"
 
+#define FIRE_FREQ 100
+
+
 class Move { //Как бы интерфейс
 protected:
 	virtual bool moveRight();
@@ -9,16 +12,34 @@ protected:
 	virtual bool moveBack();
 };
 
-class SpaceShip
+class SpaceShip : public Move
 {
 public:	
 	Coo shipCoo;
 protected:
 	int moveSpeed;
 	int health;
+	SpaceShip(){}
 	SpaceShip(int _x, int _y, int _health, int _moveSpeed) : shipCoo(_x,_y), health(_health), moveSpeed(_moveSpeed){
 	}
 	virtual ~SpaceShip(){}
+};
+
+class Enemy : public SpaceShip{
+public:
+	Enemy() : SpaceShip(0, 0, 0, 0) {}
+	Enemy(int _x, int _y, int _health, int _moveSpeed) : SpaceShip(_x, _y, _health, _moveSpeed) {};
+	~Enemy(){}
+	bool moveForward(){
+		if (shipCoo.y + (1 * moveSpeed) >= currentGame->getFieldSize().x)
+		{
+			shipCoo.y += 1 * moveSpeed;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 };
 
 class SingletonDestroyer //Система деструкции для синглтона
@@ -30,7 +51,7 @@ public:
 	void initialize(Hero* p);
 };
 
-class Hero : public SpaceShip, Move //паттерн синглтон
+class Hero : public SpaceShip//паттерн синглтон
 	//Создавать единственный обьект класса следует через функцию getInstance
 {
 private:
@@ -44,6 +65,16 @@ private:
 	Hero& operator=(Hero&);
 	~Hero(){}
 	friend class SingletonDestroyer;
+
+public:
+	static Hero& getInstance(int _x_, int _y_, int _health_, int _moveSpeed_);
+	static Hero& getInstance(void);
+	bool moveLeft();
+	bool moveRight();
+	bool fire(){
+		shipGun->fire(shipCoo);
+	}
+
 protected:
 	class LaserGun
 	{
@@ -57,14 +88,6 @@ protected:
 	};
 
 	LaserGun* shipGun;
-
-	static Hero& getInstance(int _x_, int _y_, int _health_, int _moveSpeed_);
-	static Hero& getInstance(void);
-	bool moveLeft();
-	bool moveRight();
-	bool fire(){
-		this->shipGun->fire(Coo(shipCoo);
-	}
 };
 
 class LaserRay : public Move
@@ -135,10 +158,3 @@ bool Hero::moveRight(){
 		return false;
 	}
 }
-
-
-class Enemy{
-public:
-	Enemy(){}
-	~Enemy(){}
-};

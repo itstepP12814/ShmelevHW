@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "MainHeader.h"
-
+#define ENEMY_NUMBER 10
+#define FIELD_HEIGHT 20
+#define FIELD_WIDTH 10
 
 class GameField
 {
@@ -12,9 +14,7 @@ private:
 	vector <Enemy> arrayHorde;
 	vector <LaserRay> rayArray;
 	int numEnemies;
-	bool updateGameState(){
-		gameAI.moveEnemyShipsForward();
-	}
+	bool updateGameState(){}
 public:
 	GameField(int _rows, int _cols) : fieldSize{ _rows, _cols }{
 		deadLine.x = -1; //-1 обозначает что эта координата не ипользуется
@@ -24,14 +24,14 @@ public:
 		int enemies = 0;
 		for (int i = 0; i < fieldSize.y; ++i){
 			for (int j = 0; j < fieldSize.x; ++j){
-				Enemy enemySource(? ? ? ); //Прародитель кораблей противников
-					arrayHorde.shipCoo.x = j;
-					enem.shipCoo.y = i;
+				Enemy enemySource(j, i, 100, 1); //Прародитель кораблей противников
+				arrayHorde.push_back(enemySource);
 				if (arrayHorde.size() >= numEnemies){
 					break;
 				}
 			}
 		}
+		galaxyDef = &(Hero::getInstance((fieldSize.x)/2, fieldSize.y, 100, 2)); //Создаем нашего героя
 	};
 	~GameField(){};
 	bool createRay(Coo _shipCoo){
