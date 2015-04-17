@@ -7,12 +7,7 @@
 #include "Ships.h"
 #include "Game.h"
 
-//Отступы
-#define TOP 10
-#define LEFT 10
-//Физические размеры элементов
-#define WIDTH 50
-#define HEIGHT 50
+const int LEFT = 10, TOP = 10, WIDTH = 50, HEIGHT = 50; 
 
 map <HWND, SpaceShip> enemy_ships;
 HWND hDialog;
@@ -23,7 +18,7 @@ class Game;
 
 BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp);
 
-int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, int nCmdShow){
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int nCmdShow){
 	MSG msg;
 	hInst = hInstance;
 	hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_GAME_DIALOG), NULL, DialogProc);
@@ -49,6 +44,7 @@ BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp){
 		case WM_INITDIALOG:{
 				currentGame = new Game();	 //Начинаем новую игру
 				fillField(hDialog);
+				//SetWindowLong(hWnd, GWL_STYLE, WS_POPUP);
 		}
 			return TRUE;
 	}	
@@ -75,18 +71,38 @@ bool fillField(HWND hWin){
 				int topPoint = TOP + (HEIGHT*i);
 				HWND enH = 0;
 				enH = CreateWindowEx(0, TEXT("BUTTON"), 0, WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER, leftPoint, topPoint, WIDTH, HEIGHT, hWin, 0, hInst, 0);
+				DWORD Error = GetLastError();
 				if (enH != 0){
 					enemy_ships[enH] = *em_itr;
 					em_itr++;
 				}
 				else{
-					MessageBox(hWin, TEXT("Не добавлен корабль"), TEXT("Ошибка"), MB_OK | MB_ICONEXCLAMATION);
+					TCHAR errorBuf[100];
+					wsprintf(errorBuf, TEXT("%d"), &Error);
+					MessageBox(hWin, errorBuf, TEXT("Ошибка"), MB_OK | MB_ICONEXCLAMATION);
 					break;
 				}
 			}
 			
 		}
 	}
-	EnumChildWindows(hWin, EnumChild, 0);
+	//EnumChildWindows(hWin, EnumChild, 0);
+	return true;
+}
+
+bool ShowLastError(HWND hErrorWin){
+	TCHAR errorText[100];
+	LPTSTR cstr;
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+		NULL,
+		GetLastError(),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+		(LPTSTR)&cstr,
+		0,
+		NULL
+		);
+	wsprintf(errorText, TEXT("%s"), &cstr);
+	MessageBox(hErrorWin, errorText, TEXT("Last Error"), MB_OK);
 	return true;
 }
