@@ -1,6 +1,8 @@
-#include <map>
+﻿#include <map>
 #include <vector>
 #include <Windows.h>
+#include <tchar.h>
+#include <exception>
 #include "resource.h"
 #include "Ships.h"
 #include "Game.h"
@@ -21,11 +23,12 @@ class Game;
 
 BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp);
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int nCmdShow){
+int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, int nCmdShow){
 	MSG msg;
 	hInst = hInstance;
 	hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_GAME_DIALOG), NULL, DialogProc);
 	ShowWindow(hDialog, nCmdShow);
+	UpdateWindow(hDialog);
 	while (GetMessage(&msg, 0, 0, 0)){
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
@@ -44,12 +47,21 @@ BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp){
 			return TRUE;
 
 		case WM_INITDIALOG:{
-			  currentGame = new Game();	 //Начинаем новую игру
-			  fillField(hDialog);
+				currentGame = new Game();	 //Начинаем новую игру
+				fillField(hDialog);
 		}
 			return TRUE;
 	}	
 	return FALSE;
+}
+
+BOOL CALLBACK EnumChild(HWND hExWnd, LPARAM lParam){
+	TCHAR buf[100];
+	GetClassName(hExWnd, buf, 100);
+	if (!lstrcmp(buf, TEXT("Button"))){
+		MessageBox(hExWnd, buf, TEXT("Имя класса"), MB_OK);
+	}
+	return TRUE;
 }
 
 bool fillField(HWND hWin){
@@ -61,15 +73,20 @@ bool fillField(HWND hWin){
 			if (em_itr != enemies.end()){
 				int leftPoint = LEFT + (WIDTH*j);
 				int topPoint = TOP + (HEIGHT*i);
-				enemy_ships[CreateWindowEx(0, TEXT("E"), 0,
-					WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER,
-					leftPoint, topPoint, WIDTH, HEIGHT, hWin, 0, hInst, 0)]
-					= *em_itr;
-
-				em_itr++;
+				HWND enH = 0;
+				enH = CreateWindowEx(0, TEXT("BUTTON"), 0, WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER, leftPoint, topPoint, WIDTH, HEIGHT, hWin, 0, hInst, 0);
+				if (enH != 0){
+					enemy_ships[enH] = *em_itr;
+					em_itr++;
+				}
+				else{
+					MessageBox(hWin, TEXT("Не добавлен корабль"), TEXT("Ошибка"), MB_OK | MB_ICONEXCLAMATION);
+					break;
+				}
 			}
 			
 		}
 	}
+	EnumChildWindows(hWin, EnumChild, 0);
 	return true;
 }
