@@ -1,22 +1,21 @@
 ﻿#pragma once
-#include "MainHeader.h"
-#define ENEMY_NUMBER 10
-#define FIELD_HEIGHT 20
-#define FIELD_WIDTH 10
+#include <vector>
+#include "Ships.h"
 
 class GameField
 {
 public:
 	Coo fieldSize;
 	Coo deadLine;
-private:
 	Hero* galaxyDef;
 	vector <Enemy> arrayHorde;
 	vector <LaserRay> rayArray;
+private:
+	static const int ENEMY_NUMBER = 10;
 	int numEnemies;
 	bool updateGameState(){}
 public:
-	GameField(int _rows, int _cols) : fieldSize{ _rows, _cols }{
+	GameField(size_t _rows, size_t _cols) : fieldSize{ _rows, _cols }{
 		deadLine.x = -1; //-1 обозначает что эта координата не ипользуется
 		deadLine.y = fieldSize.y - 2; //Смещаем дедлайн на две клетки выше игрока
 		numEnemies = ENEMY_NUMBER;
@@ -38,10 +37,14 @@ public:
 		LaserRay tempRay(_shipCoo);
 		rayArray.push_back(tempRay);
 	}
+
 };
 
 class Game
 {
+private:
+	static const int FIELD_HEIGHT = 20;
+	static const int FIELD_WIDTH = 10;
 public:
 	int score;
 	int roundNumber;
@@ -57,8 +60,12 @@ public:
 		delete currentField;
 	}
 	Coo getFieldSize(){
-		return currentGame->currentField->fieldSize;
+		return currentField->fieldSize;
+	}
+	vector <Enemy>& getEnemies(){
+		return currentField->arrayHorde;
 	}
 };
 
+Game* currentGame;
 

@@ -1,15 +1,31 @@
 ﻿#pragma once
 #include "MainHeader.h"
 
-#define FIRE_FREQ 100
-
+class Hero;
+class LaserRay;
 
 class Move { //Как бы интерфейс
 protected:
-	virtual bool moveRight();
-	virtual bool moveLeft();
-	virtual bool moveForward();
-	virtual bool moveBack();
+	virtual int moveRight();
+	virtual int moveLeft();
+	virtual int moveForward();
+	virtual int moveBack();
+};
+
+class LaserRay : public Move
+{
+protected:
+	int width;
+	int heigth;
+	int raySpeed;
+	friend class LaserGun;
+	Coo rayCoo;
+public:
+	LaserRay(Coo _shipCoo) : width(1), heigth(1), raySpeed(1), rayCoo(_shipCoo){};
+	~LaserRay(){};
+	int moveForward(){
+		return rayCoo.y -= (1 * raySpeed);
+	}
 };
 
 class SpaceShip : public Move
@@ -17,6 +33,9 @@ class SpaceShip : public Move
 public:	
 	Coo shipCoo;
 protected:
+	static const int FULL_HEALTH = 100;
+	static const int ENEMY_SPEED = 2000; //миллисекунд на клетку
+	static const int HERO_SPEED = 500;//миллисекунд на клетку
 	int moveSpeed;
 	int health;
 	SpaceShip(){}
@@ -25,20 +44,17 @@ protected:
 	virtual ~SpaceShip(){}
 };
 
-class Enemy : public SpaceShip{
+class Enemy : public SpaceShip
+{
 public:
 	Enemy() : SpaceShip(0, 0, 0, 0) {}
 	Enemy(int _x, int _y, int _health, int _moveSpeed) : SpaceShip(_x, _y, _health, _moveSpeed) {};
 	~Enemy(){}
-	bool moveForward(){
-		if (shipCoo.y + (1 * moveSpeed) >= currentGame->getFieldSize().x)
-		{
-			shipCoo.y += 1 * moveSpeed;
-			return true;
-		}
-		else{
-			return false;
-		}
+	int moveForward(){
+		return shipCoo.y + (1 * moveSpeed);
+	}
+	Coo getCoo(){
+		return shipCoo;
 	}
 };
 
@@ -69,8 +85,8 @@ private:
 public:
 	static Hero& getInstance(int _x_, int _y_, int _health_, int _moveSpeed_);
 	static Hero& getInstance(void);
-	bool moveLeft();
-	bool moveRight();
+	int moveLeft();
+	int moveRight();
 	bool fire(){
 		shipGun->fire(shipCoo);
 	}
@@ -79,38 +95,16 @@ protected:
 	class LaserGun
 	{
 	public:
+		static const int FIRE_FREQ = 100;
 		int fireFreq;
 		LaserGun():fireFreq(FIRE_FREQ){};
 		~LaserGun(){};
-		bool fire(Coo _shipCoo){
-			currentGame->currentField->createRay(_shipCoo);
+		LaserRay fire (Coo _shipCoo){
+			return LaserRay(_shipCoo);
 		}
 	};
 
 	LaserGun* shipGun;
-};
-
-class LaserRay : public Move
-{
-protected:
-	int width;
-	int heigth;
-	int raySpeed;
-	friend class LaserGun;
-	Coo rayCoo;
-public:
-	LaserRay(Coo _shipCoo) : width(1), heigth(1), rayCoo(_shipCoo){};
-	~LaserRay(){};
-	bool moveForward(){
-		if (rayCoo.y - (1 * raySpeed) <= currentGame->getFieldSize().y){
-			rayCoo.y -= (1 * raySpeed);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 };
 
 Hero* Hero::p_instance = 0;
@@ -137,24 +131,10 @@ Hero& Hero::getInstance() {
 	return *p_instance;
 }
 
-bool Hero::moveLeft(){
-	if (shipCoo.x-(1*moveSpeed) >= 0)
-	{
-		shipCoo.x -= 1 * moveSpeed;
-		return true;
-	}
-	else{
-		return false;
-	}
+int Hero::moveLeft(){
+	return shipCoo.x -= 1 * moveSpeed;
 }
 
-bool Hero::moveRight(){
-	if (shipCoo.x + (1 * moveSpeed) >= currentGame->getFieldSize().x)
-	{
-		shipCoo.x += 1 * moveSpeed;
-		return true;
-	}
-	else{
-		return false;
-	}
+int Hero::moveRight(){
+	return	shipCoo.x += 1 * moveSpeed;
 }
