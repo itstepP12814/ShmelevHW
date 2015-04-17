@@ -54,7 +54,7 @@ BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp){
 
 bool fillField(HWND hWin){
 	vector <Enemy> enemies = currentGame->getEnemies();
-	vector <Enemy>::iterator em_itr;
+	vector <Enemy>::iterator em_itr = enemies.begin();
 
 	for (size_t i = 0; i < currentGame->getFieldSize().x; ++i){
 		for (size_t j = 0; j < currentGame->getFieldSize().y; ++j){
