@@ -56,8 +56,8 @@ bool fillField(HWND hWin){
 	vector <Enemy> enemies = currentGame->getEnemies();
 	vector <Enemy>::iterator em_itr;
 
-	for (int i = 0; i < currentGame->getFieldSize().x; ++i){
-		for (int j = 0; j < currentGame->getFieldSize().y; ++j){
+	for (size_t i = 0; i < currentGame->getFieldSize().x; ++i){
+		for (size_t j = 0; j < currentGame->getFieldSize().y; ++j){
 			if (em_itr != enemies.end()){
 				int leftPoint = LEFT + (WIDTH*j);
 				int topPoint = TOP + (HEIGHT*i);

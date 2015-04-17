@@ -4,15 +4,15 @@
 class Hero;
 class LaserRay;
 
-class Move { //Как бы интерфейс
-protected:
-	virtual int moveRight();
-	virtual int moveLeft();
-	virtual int moveForward();
-	virtual int moveBack();
-};
+//class Move { //Как бы интерфейс
+//protected:
+//	virtual int moveRight();
+//	virtual int moveLeft();
+//	virtual int moveForward();
+//	virtual int moveBack();
+//};
 
-class LaserRay : public Move
+class LaserRay
 {
 protected:
 	int width;
@@ -28,11 +28,10 @@ public:
 	}
 };
 
-class SpaceShip : public Move
+class SpaceShip
 {
 public:	
 	Coo shipCoo;
-protected:
 	static const int FULL_HEALTH = 100;
 	static const int ENEMY_SPEED = 2000; //миллисекунд на клетку
 	static const int HERO_SPEED = 500;//миллисекунд на клетку
@@ -49,7 +48,6 @@ class Enemy : public SpaceShip
 public:
 	Enemy() : SpaceShip(0, 0, 0, 0) {}
 	Enemy(int _x, int _y, int _health, int _moveSpeed) : SpaceShip(_x, _y, _health, _moveSpeed) {};
-	~Enemy(){}
 	int moveForward(){
 		return shipCoo.y + (1 * moveSpeed);
 	}
@@ -79,16 +77,20 @@ private:
 	}
 	Hero(const Hero&);
 	Hero& operator=(Hero&);
-	~Hero(){}
 	friend class SingletonDestroyer;
 
 public:
 	static Hero& getInstance(int _x_, int _y_, int _health_, int _moveSpeed_);
 	static Hero& getInstance(void);
-	int moveLeft();
-	int moveRight();
 	bool fire(){
 		shipGun->fire(shipCoo);
+	}
+	int moveLeft(){
+		return shipCoo.x -= 1 * moveSpeed;
+	}
+
+	int moveRight(){
+		return	shipCoo.x += 1 * moveSpeed;
 	}
 
 protected:
@@ -129,12 +131,4 @@ Hero& Hero::getInstance(int _x_, int _y_, int _health_, int _moveSpeed_) {
 
 Hero& Hero::getInstance() {
 	return *p_instance;
-}
-
-int Hero::moveLeft(){
-	return shipCoo.x -= 1 * moveSpeed;
-}
-
-int Hero::moveRight(){
-	return	shipCoo.x += 1 * moveSpeed;
 }

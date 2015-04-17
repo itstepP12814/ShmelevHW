@@ -21,8 +21,8 @@ public:
 		numEnemies = ENEMY_NUMBER;
 		//выдаем им координаты на поле
 		int enemies = 0;
-		for (int i = 0; i < fieldSize.y; ++i){
-			for (int j = 0; j < fieldSize.x; ++j){
+		for (size_t i = 0; i < fieldSize.y; ++i){
+			for (size_t j = 0; j < fieldSize.x; ++j){
 				Enemy enemySource(j, i, 100, 1); //Прародитель кораблей противников
 				arrayHorde.push_back(enemySource);
 				if (arrayHorde.size() >= numEnemies){
