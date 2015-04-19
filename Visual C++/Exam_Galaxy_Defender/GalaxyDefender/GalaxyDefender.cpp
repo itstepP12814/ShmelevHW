@@ -6,22 +6,28 @@
 #include "resource.h"
 #include "Ships.h"
 #include "Game.h"
+#include "GameOperators.h"
 
-const int LEFT = 10, TOP = 10, WIDTH = 50, HEIGHT = 50; 
+#define GAME_WORLD_TIMER 666
 
-map <HWND, SpaceShip> enemy_ships;
+const int LEFT = 10, TOP = 10, pxResolution = 30; 
+
+map <HWND, SpaceShip*> enemy_ships;
+EnemyOperator* villian;
 HWND hDialog;
 HINSTANCE hInst;
+Coo physFieldCoo;
 
 bool fillField(HWND hWin);
 class Game;
 
 BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp);
+VOID CALLBACK gameTimer(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int nCmdShow){
 	MSG msg;
 	hInst = hInstance;
-	hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_GAME_DIALOG), NULL, DialogProc);
+	DialogBox(hInstance, MAKEINTRESOURCE(IDD_GAME_DIALOG), NULL, (DLGPROC)DialogProc);
 	ShowWindow(hDialog, nCmdShow);
 	UpdateWindow(hDialog);
 	while (GetMessage(&msg, 0, 0, 0)){
@@ -32,6 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpszCmdLine, 
 }
 
 BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp){
+	DWORD Error = GetLastError();
 	switch (message)
 	{
 		case WM_CLOSE:{
@@ -42,9 +49,16 @@ BOOL CALLBACK DialogProc(HWND hWnd, UINT message, WPARAM wp, LPARAM lp){
 			return TRUE;
 
 		case WM_INITDIALOG:{
+				hDialog = hWnd;
 				currentGame = new Game();	 //Начинаем новую игру
+				villian = new EnemyOperator();
+				physFieldCoo.x = (currentGame->getFieldSize().x)*pxResolution;
+				physFieldCoo.y = (currentGame->getFieldSize().y)*pxResolution;
 				fillField(hDialog);
-				//SetWindowLong(hWnd, GWL_STYLE, WS_POPUP);
+				SetTimer(hWnd, GAME_WORLD_TIMER, 1000, gameTimer);
+		}
+		case WM_COMMAND:{
+				
 		}
 			return TRUE;
 	}	
@@ -56,21 +70,31 @@ BOOL CALLBACK EnumChild(HWND hExWnd, LPARAM lParam){
 	GetClassName(hExWnd, buf, 100);
 	if (!lstrcmp(buf, TEXT("Button"))){
 		MessageBox(hExWnd, buf, TEXT("Имя класса"), MB_OK);
+		return FALSE;
 	}
 	return TRUE;
 }
 
 bool fillField(HWND hWin){
-	vector <Enemy> enemies = currentGame->getEnemies();
-	vector <Enemy>::iterator em_itr = enemies.begin();
+	Hero* galaxyDef = currentGame->currentField->galaxyDef;
+
+	vector <Enemy*> enemies = currentGame->getEnemies();
+	vector <Enemy*>::iterator em_itr = enemies.begin();
+	vector <Hero*> defenders = {galaxyDef};
+	vector <Hero*>::iterator def_itr = defenders.begin();
+	
 
 	for (size_t i = 0; i < currentGame->getFieldSize().x; ++i){
 		for (size_t j = 0; j < currentGame->getFieldSize().y; ++j){
 			if (em_itr != enemies.end()){
-				int leftPoint = LEFT + (WIDTH*j);
-				int topPoint = TOP + (HEIGHT*i);
+				//Получаем размер корабля импользуя его размеры (относительно абстрактного поля) и разрешение физического поля
+				int shipWidth = (*em_itr)->width * pxResolution;
+				int shipHeigth = (*em_itr)->height * pxResolution;
+				//Устанавливаем координаты на физическом поле
+				int leftPoint = LEFT + ((*em_itr)->getCoo().x*pxResolution);
+				int topPoint = TOP + ((*em_itr)->getCoo().y*pxResolution);
 				HWND enH = 0;
-				enH = CreateWindowEx(0, TEXT("BUTTON"), 0, WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER, leftPoint, topPoint, WIDTH, HEIGHT, hWin, 0, hInst, 0);
+				enH = CreateWindowEx(0, TEXT("BUTTON"), 0, WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER, leftPoint, topPoint, shipWidth, shipHeigth, hWin, 0, hInst, 0);
 				DWORD Error = GetLastError();
 				if (enH != 0){
 					enemy_ships[enH] = *em_itr;
@@ -80,15 +104,39 @@ bool fillField(HWND hWin){
 					TCHAR errorBuf[100];
 					wsprintf(errorBuf, TEXT("%d"), &Error);
 					MessageBox(hWin, errorBuf, TEXT("Ошибка"), MB_OK | MB_ICONEXCLAMATION);
-					break;
+					return false;
 				}
 			}
-			
+			if (def_itr != defenders.end()){
+				int shipWidth = (*def_itr)->width * pxResolution;
+				int shipHeigth = (*def_itr)->height * pxResolution;
+				//Устанавливаем координаты на физическом поле
+				int leftPoint = LEFT + ((*def_itr)->shipCoo.x*shipWidth);
+				int topPoint = TOP + ((*def_itr)->shipCoo.y*shipHeigth);
+				HWND enH = 0;
+				enH = CreateWindowEx(0, TEXT("BUTTON"), 0, WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER, leftPoint, topPoint, shipWidth, shipHeigth, hWin, 0, hInst, 0);
+			}
 		}
 	}
-	//EnumChildWindows(hWin, EnumChild, 0);
+	
 	return true;
 }
+
+BOOL CALLBACK enumChildAndClear(HWND hExWnd, LPARAM lParam){
+	TCHAR buf[100];
+	GetClassName(hExWnd, buf, 100);
+	if (!lstrcmp(buf, TEXT("Button"))){
+		DestroyWindow(hExWnd);
+	}
+	return TRUE;
+}
+
+bool clearField(HWND hWin){
+	EnumChildWindows(hWin, enumChildAndClear, 0);
+	return true;
+}
+
+
 
 bool ShowLastError(HWND hErrorWin){
 	TCHAR errorText[100];
@@ -105,4 +153,17 @@ bool ShowLastError(HWND hErrorWin){
 	wsprintf(errorText, TEXT("%s"), &cstr);
 	MessageBox(hErrorWin, errorText, TEXT("Last Error"), MB_OK);
 	return true;
+}
+
+VOID CALLBACK gameTimer(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime) 
+{
+	if (!currentGame->gameOver){
+		currentGame->gameOver = !(villian->makeNextStep());
+		clearField(hwnd);
+		fillField(hwnd);
+	}
+	else{
+		KillTimer(hDialog, GAME_WORLD_TIMER);
+		MessageBox(hwnd, TEXT("Вы проиграли"), TEXT("Игра окончена"), MB_OK);
+	}
 }

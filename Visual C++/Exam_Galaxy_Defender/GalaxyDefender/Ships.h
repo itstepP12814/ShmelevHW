@@ -37,8 +37,10 @@ public:
 	static const int HERO_SPEED = 500;//миллисекунд на клетку
 	int moveSpeed;
 	int health;
+	int width;
+	int height;
 	SpaceShip(){}
-	SpaceShip(int _x, int _y, int _health, int _moveSpeed) : shipCoo(_x,_y), health(_health), moveSpeed(_moveSpeed){
+	SpaceShip(int _x, int _y, int _health, int _moveSpeed, int _width, int _height) : shipCoo(_x,_y), health(_health), moveSpeed(_moveSpeed), width(_width), height(_height){
 	}
 	virtual ~SpaceShip(){}
 };
@@ -46,10 +48,9 @@ public:
 class Enemy : public SpaceShip
 {
 public:
-	Enemy() : SpaceShip(0, 0, 0, 0) {}
-	Enemy(int _x, int _y, int _health, int _moveSpeed) : SpaceShip(_x, _y, _health, _moveSpeed) {};
+	Enemy(int _x, int _y, int _health, int _moveSpeed, int _width, int _heigth) : SpaceShip(_x, _y, _health, _moveSpeed, _width, _heigth) {};
 	int moveForward(){
-		return shipCoo.y + (1 * moveSpeed);
+		return shipCoo.y += (1 * moveSpeed);
 	}
 	Coo getCoo(){
 		return shipCoo;
@@ -72,7 +73,7 @@ private:
 	static Hero * p_instance;
 	static SingletonDestroyer destroyer;
 	// Конструкторы и оператор присваивания недоступны клиентам
-	Hero(int _x, int _y, int _health, int _moveSpeed) : SpaceShip(_x, _y, _health, _moveSpeed){
+	Hero(int _x, int _y, int _health, int _moveSpeed, int _width, int _heigth) : SpaceShip(_x, _y, _health, _moveSpeed, _width, _heigth){
 		shipGun = new LaserGun();
 	}
 	Hero(const Hero&);
@@ -80,7 +81,7 @@ private:
 	friend class SingletonDestroyer;
 
 public:
-	static Hero& getInstance(int _x_, int _y_, int _health_, int _moveSpeed_);
+	static Hero& getInstance(int _x, int _y, int _health, int _moveSpeed, int _width, int _heigth);
 	static Hero& getInstance(void);
 	bool fire(){
 		shipGun->fire(shipCoo);
@@ -120,9 +121,9 @@ void SingletonDestroyer::initialize(Hero* p) {
 	p_instance = p;
 }
 
-Hero& Hero::getInstance(int _x_, int _y_, int _health_, int _moveSpeed_) {
+Hero& Hero::getInstance(int _x, int _y, int _health, int _moveSpeed, int _width, int _heigth) {
 	if (!p_instance){
-		p_instance = new Hero(_x_, _y_, _health_, _moveSpeed_);
+		p_instance = new Hero(_x, _y, _health, _moveSpeed, _width, _heigth);
 		destroyer.initialize(p_instance);
 	}
 

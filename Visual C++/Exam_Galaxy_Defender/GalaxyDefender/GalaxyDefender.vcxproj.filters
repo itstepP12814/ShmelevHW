@@ -26,13 +26,13 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MainHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ships.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOperators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
