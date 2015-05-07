@@ -1,0 +1,53 @@
+<head>
+	<title>Пример использования AJAX</title>
+</head>
+<body>
+	<h1>Загрузка вебстраницы в контейнер DIV</h1>
+	<div id="info">Это предложение будет изменено</div>
+	<script type="text/javascript">
+	params = "url=akson.by"; /*Параметры: пара = значение*/
+	request = new ajaxRequest(); /*Создаем новый обьект запроса (функция снизу)*/
+	request.open("POST", "urlPost.php", true); /*Настраиваем обьект на создаение post запроса по адресу файла php сценария. true - указывает на включение асинхронного режима*/
+	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
+	/*Отправляем http заголовки, для того чтобы сервер знал о поступлении POST запроса*/
+	request.setRequestHeader("Connection", "close");
+	request.onreadystatechange = function(){ /*Указывает на CALLBACK функцию, которая должна вызываться при каждом изменении свойства readyState*/
+		if (this.readyState == 4) {
+			if(this.status == 200){
+				if(this.responseText != null){
+					document.getElementById('info').innerHTML = this.responseText; /*Текст ответа сервера: весь html код - помещаем в элемент страницы info*/
+				}
+				else{
+					alert("Ошибка AJAX: Данные не получены");
+				}
+			}
+			else{
+				alert("Ошибка AJAX: " + this.statusText);
+			}
+		};
+	}
+
+	request.send(params); /*Собственно отправка запроса*/
+
+	function ajaxRequest(){
+		try{
+			var request = new XMLHttpRequest()
+		}
+		catch(e1){
+			try{
+				request = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch(e2){
+				try{
+					request = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch(e3){
+					request = false;
+				}
+			}
+		}
+		return request;
+	}
+	</script>
+</body>
+</html>
