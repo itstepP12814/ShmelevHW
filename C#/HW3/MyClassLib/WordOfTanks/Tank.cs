@@ -14,25 +14,38 @@ namespace MyClassLib
 
         public Tank(string tankModel)
         {
-            if (tankModel.ToLower() == "pantera")
+            try
             {
-                name = "Pantera";
-            }
-            else
-            {
-                if (tankModel.ToLower() == "t-34" || tankModel.ToLower() == "t34")
+                if (tankModel.ToLower() == "pantera")
                 {
-                    name = "T-34";
+                    name = "Pantera";
+                }
+                else
+                {
+                    if (tankModel.ToLower() == "t-34" || tankModel.ToLower() == "t34")
+                    {
+                        name = "T-34";
+                    }
+                }
+                int pauseTime = 10;
+                Random rand = new Random();
+                ammunition = rand.Next(0, 100);
+                System.Threading.Thread.Sleep(pauseTime);
+                armor = rand.Next(0, 100);
+                System.Threading.Thread.Sleep(pauseTime);
+                speed = rand.Next(0, 100);
+                System.Threading.Thread.Sleep(pauseTime);
+                if ((armor > 100 || armor < 0) || (ammunition > 100 || ammunition < 0) || (speed > 100 || speed < 0))
+                {
+                    throw new ApplicationException("Танк создался с ошибкой.");
                 }
             }
-            int pauseTime = 10;
-            Random rand = new Random();
-            ammunition = rand.Next(0, 100);
-            System.Threading.Thread.Sleep(pauseTime);
-            armor = rand.Next(0, 100);
-            System.Threading.Thread.Sleep(pauseTime);
-            speed = rand.Next(0, 100);
-            System.Threading.Thread.Sleep(pauseTime);
+
+            catch(ApplicationException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
         public override string ToString()
         {
