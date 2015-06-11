@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ATM\Account.cs" />
+    <Compile Include="ATM\Bank.cs" />
+    <Compile Include="ATM\Client.cs" />
     <Compile Include="WordOfTanks\Tank.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
