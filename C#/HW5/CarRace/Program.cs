@@ -11,6 +11,13 @@ namespace CarRace
         static void Main(string[] args)
         {
             PathMap paths = new PathMap(1000, 5);
+            Console.WriteLine("Дистанция: " + paths.Length + "м.\nАвтомобили на старте:\n");
+            foreach (Car car in paths.cars)
+            {
+                Console.WriteLine(car.CarName);
+            }
+            Console.WriteLine("Намите любую клавишу для старта");
+            Console.ReadKey();
             while (!paths.Over)
             {
                 paths.pusher();
@@ -36,7 +43,7 @@ namespace CarRace
         public void Go()
         {
             Random rand = new Random();
-            speed = rand.Next(500, 1000); //метры в секунду
+            speed = rand.Next(30, 50); //метры в секунду
             System.Threading.Thread.Sleep(20);
             wayProgress += speed;
             if (wayProgress >= wayLength)
@@ -45,7 +52,8 @@ namespace CarRace
         }
         public override string ToString()
         {
-            return name + ": \n" + "\tПройдено: " + wayProgress + "% пути\n\tСкорость: " + (speed/1000)*60*60 + "км/ч\n";
+            double speedkm = (double)((double)speed/(double)1000)*(double)60*(double)60; // O_o в переменную попадает 0, почему?
+            return name + ": \n" + "\tПройдено: " + ((double)wayProgress/(double)wayLength)*(double)100 + "% пути\n\tСкорость: " + speedkm + "км/ч\n";
         }
 
         public string CarName { get { return name; } }
@@ -59,6 +67,7 @@ namespace CarRace
         int length;
         bool over;
         public bool Over { get { return over; } }
+        public int Length { get {return length;} }
         public PathMap(int lengthMeters, int numberOfCars)
         {
             this.length = lengthMeters;
@@ -66,12 +75,12 @@ namespace CarRace
             over = false;
             for (int i = 0; i < cars.Length; ++i)
             {
-                cars[i] = new Car("Car #" + i, length);
+                cars[i] = new Car("Car #" + (int)(i+1), length);
                 //Все методы движения автомобилей будут присывоены одному делегату и будут вызываться через него вместе.
                 pusher += new goToAll(cars[i].Go);
+                //Здесь мы каждому событию каждого автомобиля присваиваем один универсальный обработчик
+                cars[i].Finished += new EventHandler(raceFinished);
             }
-            //Подписываем класс на событие финиша
-            EventHandler finishChecker = new EventHandler(raceFinished);
         }
         public override string ToString()
         {
