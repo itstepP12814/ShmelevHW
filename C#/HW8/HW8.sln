@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherInfo", "WeatherInfo\WeatherInfo.csproj", "{A7401670-CAC3-4D35-B3DF-1B30051A739C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherInfoLib", "WeatherInfoLib\WeatherInfoLib.csproj", "{61BB5A85-9C0D-4242-B7D5-EB38C36EB294}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iniReaderLib", "iniReaderLib\iniReaderLib.csproj", "{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7401670-CAC3-4D35-B3DF-1B30051A739C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7401670-CAC3-4D35-B3DF-1B30051A739C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7401670-CAC3-4D35-B3DF-1B30051A739C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7401670-CAC3-4D35-B3DF-1B30051A739C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61BB5A85-9C0D-4242-B7D5-EB38C36EB294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61BB5A85-9C0D-4242-B7D5-EB38C36EB294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61BB5A85-9C0D-4242-B7D5-EB38C36EB294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61BB5A85-9C0D-4242-B7D5-EB38C36EB294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
