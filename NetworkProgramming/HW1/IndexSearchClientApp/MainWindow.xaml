@@ -1,0 +1,22 @@
+﻿<Window x:Class="IndexSearchClientApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IndexSearchClientApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBox Name="TextBoxAddress" Margin="10 20 10 0"></TextBox>
+            <TextBox Name="TextBoxMessage" Margin="10 20 10 20"></TextBox>
+        </StackPanel>
+        <Button Name="ButtonCreateConnection" Grid.Row="1" Click="ButtonBase_OnClick" Margin="30">Подключиться и получить список улиц</Button>
+        <TextBox Name="TextBoxInfo" Grid.Row="2"></TextBox>
+    </Grid>
+</Window>

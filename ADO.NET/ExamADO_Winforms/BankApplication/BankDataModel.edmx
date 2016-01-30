@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BankDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BankDataModelStoreContainer">
+    <EntitySet Name="BankBranchSet" EntityType="BankDataModel.Store.BankBranchSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BankSet" EntityType="BankDataModel.Store.BankSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ExchangeRatesSet" EntityType="BankDataModel.Store.ExchangeRatesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReviewsSet" EntityType="BankDataModel.Store.ReviewsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ServicesNamesSet" EntityType="BankDataModel.Store.ServicesNamesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ServicesSet" EntityType="BankDataModel.Store.ServicesSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_BankBankBranch" Association="BankDataModel.Store.FK_BankBankBranch">
+      <End Role="BankSet" EntitySet="BankSet" />
+      <End Role="BankBranchSet" EntitySet="BankBranchSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankBranchReviews" Association="BankDataModel.Store.FK_BankBranchReviews">
+      <End Role="BankBranchSet" EntitySet="BankBranchSet" />
+      <End Role="ReviewsSet" EntitySet="ReviewsSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankBranchServices" Association="BankDataModel.Store.FK_BankBranchServices">
+      <End Role="BankBranchSet" EntitySet="BankBranchSet" />
+      <End Role="ServicesSet" EntitySet="ServicesSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankExchangeRates" Association="BankDataModel.Store.FK_BankExchangeRates">
+      <End Role="BankSet" EntitySet="BankSet" />
+      <End Role="ExchangeRatesSet" EntitySet="ExchangeRatesSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BankBranchSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Xpos" Type="float" Nullable="false" />
+    <Property Name="Ypos" Type="float" Nullable="false" />
+    <Property Name="OpenDate" Type="datetime" Nullable="true" />
+    <Property Name="WorkTime" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BreakTime" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Bank_Id" Type="int" Nullable="false" />
+    <Property Name="OperatorInfo" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="BankSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExchangeRatesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Currency" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Sell" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Buy" Type="decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Bank_Id" Type="int" Nullable="false" />
+    <Property Name="XmlBankId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReviewsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sender" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ReviewText" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
+    <Property Name="BankBranch_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ServicesNamesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ServicesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BankBranch_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_BankBankBranch">
+    <End Role="BankSet" Type="BankDataModel.Store.BankSet" Multiplicity="1" />
+    <End Role="BankBranchSet" Type="BankDataModel.Store.BankBranchSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BankBranchSet">
+        <PropertyRef Name="Bank_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankBranchReviews">
+    <End Role="BankBranchSet" Type="BankDataModel.Store.BankBranchSet" Multiplicity="1" />
+    <End Role="ReviewsSet" Type="BankDataModel.Store.ReviewsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankBranchSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReviewsSet">
+        <PropertyRef Name="BankBranch_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankBranchServices">
+    <End Role="BankBranchSet" Type="BankDataModel.Store.BankBranchSet" Multiplicity="1" />
+    <End Role="ServicesSet" Type="BankDataModel.Store.ServicesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankBranchSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServicesSet">
+        <PropertyRef Name="BankBranch_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankExchangeRates">
+    <End Role="BankSet" Type="BankDataModel.Store.BankSet" Multiplicity="1" />
+    <End Role="ExchangeRatesSet" Type="BankDataModel.Store.ExchangeRatesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BankSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ExchangeRatesSet">
+        <PropertyRef Name="Bank_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="BankDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="BankDataModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BankBranchSet" EntityType="BankDataModel.BankBranch" />
+          <EntitySet Name="BankSet" EntityType="BankDataModel.Bank" />
+          <EntitySet Name="ExchangeRatesSet" EntityType="BankDataModel.ExchangeRates" />
+          <EntitySet Name="ReviewsSet" EntityType="BankDataModel.Reviews" />
+          <EntitySet Name="ServicesNamesSet" EntityType="BankDataModel.ServicesNames" />
+          <EntitySet Name="ServicesSet" EntityType="BankDataModel.Services" />
+          <AssociationSet Name="FK_BankBankBranch" Association="BankDataModel.FK_BankBankBranch">
+            <End Role="BankSet" EntitySet="BankSet" />
+            <End Role="BankBranchSet" EntitySet="BankBranchSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankBranchReviews" Association="BankDataModel.FK_BankBranchReviews">
+            <End Role="BankBranchSet" EntitySet="BankBranchSet" />
+            <End Role="ReviewsSet" EntitySet="ReviewsSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankBranchServices" Association="BankDataModel.FK_BankBranchServices">
+            <End Role="BankBranchSet" EntitySet="BankBranchSet" />
+            <End Role="ServicesSet" EntitySet="ServicesSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankExchangeRates" Association="BankDataModel.FK_BankExchangeRates">
+            <End Role="BankSet" EntitySet="BankSet" />
+            <End Role="ExchangeRatesSet" EntitySet="ExchangeRatesSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BankBranch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Xpos" Type="Double" Nullable="false" />
+          <Property Name="Ypos" Type="Double" Nullable="false" />
+          <Property Name="OpenDate" Type="DateTime" />
+          <Property Name="WorkTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BreakTime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Bank_Id" Nullable="false" Type="Int32" />
+          <NavigationProperty Name="BankSet" Relationship="BankDataModel.FK_BankBankBranch" FromRole="BankBranchSet" ToRole="BankSet" />
+          <NavigationProperty Name="ReviewsSet" Relationship="BankDataModel.FK_BankBranchReviews" FromRole="BankBranchSet" ToRole="ReviewsSet" />
+          <NavigationProperty Name="ServicesSet" Relationship="BankDataModel.FK_BankBranchServices" FromRole="BankBranchSet" ToRole="ServicesSet" />
+          <Property Name="OperatorInfo" Type="String" />
+        </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BankBranchSet" Relationship="BankDataModel.FK_BankBankBranch" FromRole="BankSet" ToRole="BankBranchSet" />
+          <NavigationProperty Name="ExchangeRatesSet" Relationship="BankDataModel.FK_BankExchangeRates" FromRole="BankSet" ToRole="ExchangeRatesSet" />
+        </EntityType>
+        <EntityType Name="ExchangeRates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Currency" Type="String" Nullable="false" />
+          <Property Name="Sell" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Buy" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Bank_Id" Nullable="false" Type="Int32" />
+          <NavigationProperty Name="BankSet" Relationship="BankDataModel.FK_BankExchangeRates" FromRole="ExchangeRatesSet" ToRole="BankSet" />
+          <Property Name="XmlBankId" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reviews">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sender" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="BankBranch_Id" Nullable="false" Type="Int32" />
+          <NavigationProperty Name="BankBranchSet" Relationship="BankDataModel.FK_BankBranchReviews" FromRole="ReviewsSet" ToRole="BankBranchSet" />
+        </EntityType>
+        <EntityType Name="ServicesNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BankBranch_Id" Nullable="false" Type="Int32" />
+          <NavigationProperty Name="BankBranchSet" Relationship="BankDataModel.FK_BankBranchServices" FromRole="ServicesSet" ToRole="BankBranchSet" />
+        </EntityType>
+        <Association Name="FK_BankBankBranch">
+          <End Type="BankDataModel.Bank" Role="BankSet" Multiplicity="1" />
+          <End Type="BankDataModel.BankBranch" Role="BankBranchSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BankBranchSet">
+              <PropertyRef Name="Bank_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankBranchReviews">
+          <End Type="BankDataModel.BankBranch" Role="BankBranchSet" Multiplicity="1" />
+          <End Type="BankDataModel.Reviews" Role="ReviewsSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankBranchSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReviewsSet">
+              <PropertyRef Name="BankBranch_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankBranchServices">
+          <End Type="BankDataModel.BankBranch" Role="BankBranchSet" Multiplicity="1" />
+          <End Type="BankDataModel.Services" Role="ServicesSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankBranchSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServicesSet">
+              <PropertyRef Name="BankBranch_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankExchangeRates">
+          <End Type="BankDataModel.Bank" Role="BankSet" Multiplicity="1" />
+          <End Type="BankDataModel.ExchangeRates" Role="ExchangeRatesSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BankSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExchangeRatesSet">
+              <PropertyRef Name="Bank_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BankDataModelStoreContainer" CdmEntityContainer="BankDataModelContainer">
+    <EntitySetMapping Name="BankBranchSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BankDataModel.BankBranch)">
+        <MappingFragment StoreEntitySet="BankBranchSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Xpos" ColumnName="Xpos" />
+          <ScalarProperty Name="Ypos" ColumnName="Ypos" />
+          <ScalarProperty Name="OpenDate" ColumnName="OpenDate" />
+          <ScalarProperty Name="WorkTime" ColumnName="WorkTime" />
+          <ScalarProperty Name="BreakTime" ColumnName="BreakTime" />
+          <ScalarProperty Name="Bank_Id" ColumnName="Bank_Id" />
+          <ScalarProperty Name="OperatorInfo" ColumnName="OperatorInfo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BankSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BankDataModel.Bank)">
+        <MappingFragment StoreEntitySet="BankSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExchangeRatesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BankDataModel.ExchangeRates)">
+        <MappingFragment StoreEntitySet="ExchangeRatesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="Sell" ColumnName="Sell" />
+          <ScalarProperty Name="Buy" ColumnName="Buy" />
+          <ScalarProperty Name="Bank_Id" ColumnName="Bank_Id" />
+          <ScalarProperty Name="XmlBankId" ColumnName="XmlBankId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReviewsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BankDataModel.Reviews)">
+        <MappingFragment StoreEntitySet="ReviewsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Sender" ColumnName="Sender" />
+          <ScalarProperty Name="ReviewText" ColumnName="ReviewText" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="BankBranch_Id" ColumnName="BankBranch_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServicesNamesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BankDataModel.ServicesNames)">
+        <MappingFragment StoreEntitySet="ServicesNamesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServicesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(BankDataModel.Services)">
+        <MappingFragment StoreEntitySet="ServicesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="BankBranch_Id" ColumnName="BankBranch_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

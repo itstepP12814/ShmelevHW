@@ -1,0 +1,44 @@
+﻿<Window x:Class="UsingUserControl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UsingUserControl"
+        xmlns:numCtrl="clr-namespace:NumericUpDown_UserControl;assembly=NumericUpDown_UserControl"
+        mc:Ignorable="d"
+        Title="User Control Test App" Height="261.037" Width="525">
+    <Grid DataContext="{Binding ElementName=FirstNumUpDown}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" HorizontalAlignment="Center" Content="Основной пользовательский элемент"></Label>
+        <numCtrl:NumericUpDown Name="FirstNumUpDown" Minimum="{Binding ElementName=MinChanger, Path=Value, Mode=TwoWay}" Maximum="{Binding ElementName=MaxChanger, Path=Value, Mode=TwoWay}" Grid.Row="1"></numCtrl:NumericUpDown>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="{Binding Path=Minimum}"></Label>
+            <Slider Grid.Column="1" Value="{Binding Path=Value}" Maximum="{Binding Path=Maximum}" Minimum="{Binding Path=Minimum}"></Slider>
+            <Label  Grid.Column="2" Content="{Binding Path=Maximum}"></Label>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Name="FirstCol"></RowDefinition>
+                <RowDefinition Name="SecondCol"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Content="Минимальное значение"></Label>
+            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="Максимальное значение"></Label>
+            <numCtrl:NumericUpDown Name="MinChanger" Value="0" Grid.Row="1" Grid.Column="0"/>
+            <numCtrl:NumericUpDown Name="MaxChanger" Value="100" Grid.Column="1" Grid.Row="1"></numCtrl:NumericUpDown>
+        </Grid>
+    </Grid>
+</Window>

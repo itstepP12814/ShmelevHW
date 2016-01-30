@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StreetsList>
+  <Street>
+    <Name>Добровольская</Name>
+    <Index>23568</Index>
+  </Street>
+  <Street>
+    <Name>Здравоникольская</Name>
+    <Index>56589</Index>
+  </Street>
+  <Street>
+    <Name>Кошевого</Name>
+    <Index>23568</Index>
+  </Street>
+  <Street>
+    <Name>Чурбекова</Name>
+    <Index>56589</Index>
+  </Street>
+  <Street>
+    <Name>Николаева</Name>
+    <Index>56589</Index>
+  </Street>
+  <Street>
+    <Name>Проспект Победителей</Name>
+    <Index>23568</Index>
+  </Street>
+  <Street>
+    <Name>Площадь Интернационала</Name>
+    <Index>45854</Index>
+  </Street>
+</StreetsList>

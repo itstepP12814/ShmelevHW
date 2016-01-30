@@ -1,0 +1,21 @@
+﻿<Window x:Class="ScreenShotNetMakerClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScreenShotNetMakerClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image Name="ImageScreen" HorizontalAlignment="Center">
+            <Image.Source>
+                <BitmapImage UriSource="/no-thumb.png"></BitmapImage>
+            </Image.Source>
+        </Image>
+        <Button Name="ButtonGetScreenshot" Click="ButtonBase_OnClick" Grid.Row="1">Подключиться и получить снимок экрана</Button>
+    </Grid>
+</Window>

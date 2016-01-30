@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<POST>
+	<PRODUCER>
+		<ID>1</ID>
+                <NAME>Bob Nare</NAME>
+		<DATE>2003-01-04</DATE>
+		<FREE>1000</FREE>
+	</PRODUCER>
+        <PRODUCER>
+		<ID>2</ID>
+                <NAME>Ivan Drago</NAME>
+		<DATE>2001-12-24</DATE>
+		<FREE>1730</FREE>
+	</PRODUCER>
+        <PRODUCER>
+		<ID>3</ID>
+                <NAME>Ben Slimane</NAME>
+		<DATE>1999-10-15</DATE>
+		<FREE>2100</FREE>
+	</PRODUCER>
+        <PRODUCER>
+		<ID>4</ID>
+                <NAME>Klara Klichko</NAME>
+		<DATE>1998-02-23</DATE>
+		<FREE>1050</FREE>
+	</PRODUCER>
+        <PRODUCER>
+		<ID>5</ID>
+                <NAME>Jon Jakobson</NAME>
+		<DATE>1999-01-04</DATE>
+		<FREE>2400</FREE>
+	</PRODUCER>
+</POST>

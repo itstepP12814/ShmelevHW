@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PC_lib", "PC_lib\PC_lib.csproj", "{1648068B-6676-4581-A24E-9D8050A7C83C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializeConsoleApp", "SerializeConsoleApp\SerializeConsoleApp.csproj", "{93D946FE-24E7-4DFC-B534-72F83615E160}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeserializeConsoleApp", "DeserializeConsoleApp\DeserializeConsoleApp.csproj", "{C06442C6-3565-46C0-AB71-0A976931914A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iniReaderLib", "iniReaderLib\iniReaderLib.csproj", "{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1648068B-6676-4581-A24E-9D8050A7C83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1648068B-6676-4581-A24E-9D8050A7C83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1648068B-6676-4581-A24E-9D8050A7C83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1648068B-6676-4581-A24E-9D8050A7C83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D946FE-24E7-4DFC-B534-72F83615E160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D946FE-24E7-4DFC-B534-72F83615E160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D946FE-24E7-4DFC-B534-72F83615E160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D946FE-24E7-4DFC-B534-72F83615E160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06442C6-3565-46C0-AB71-0A976931914A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06442C6-3565-46C0-AB71-0A976931914A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06442C6-3565-46C0-AB71-0A976931914A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06442C6-3565-46C0-AB71-0A976931914A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB59B71-F732-4B10-B32B-DCD4A8CC12CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

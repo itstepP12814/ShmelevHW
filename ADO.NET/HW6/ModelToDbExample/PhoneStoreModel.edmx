@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PhoneStoreModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="PhoneStoreModelStoreContainer">
+    <EntitySet Name="CarsSet" EntityType="PhoneStoreModel.Store.CarsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DriversSet" EntityType="PhoneStoreModel.Store.DriversSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="DriversCars" Association="PhoneStoreModel.Store.DriversCars">
+      <End Role="Drivers" EntitySet="DriversSet" />
+      <End Role="Cars" EntitySet="CarsSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CarsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Speed" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DriversSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Cars_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="DriversCars">
+    <End Role="Drivers" Type="PhoneStoreModel.Store.DriversSet" Multiplicity="*" />
+    <End Role="Cars" Type="PhoneStoreModel.Store.CarsSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Drivers">
+        <PropertyRef Name="Cars_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="PhoneStoreModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="PhoneStoreModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarsSet" EntityType="PhoneStoreModel.Cars" />
+          <EntitySet Name="DriversSet" EntityType="PhoneStoreModel.Drivers" />
+          <AssociationSet Name="DriversCars" Association="PhoneStoreModel.DriversCars">
+            <End Role="Drivers" EntitySet="DriversSet" />
+            <End Role="Cars" EntitySet="CarsSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Speed" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Drivers" Relationship="PhoneStoreModel.DriversCars" FromRole="Cars" ToRole="Drivers" />
+        </EntityType>
+        <EntityType Name="Drivers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Adress" Type="String" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="PhoneStoreModel.DriversCars" FromRole="Drivers" ToRole="Cars" />
+        </EntityType>
+        <Association Name="DriversCars">
+          <End Type="PhoneStoreModel.Drivers" Role="Drivers" Multiplicity="*" />
+          <End Type="PhoneStoreModel.Cars" Role="Cars" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PhoneStoreModelStoreContainer" CdmEntityContainer="PhoneStoreModelContainer">
+    <EntitySetMapping Name="CarsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(PhoneStoreModel.Cars)">
+        <MappingFragment StoreEntitySet="CarsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Speed" ColumnName="Speed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DriversSet">
+      <EntityTypeMapping TypeName="IsTypeOf(PhoneStoreModel.Drivers)">
+        <MappingFragment StoreEntitySet="DriversSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Adress" ColumnName="Adress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DriversCars" TypeName="PhoneStoreModel.DriversCars" StoreEntitySet="DriversSet">
+      <EndProperty Name="Cars">
+        <ScalarProperty Name="Id" ColumnName="Cars_Id" />
+      </EndProperty>
+      <EndProperty Name="Drivers">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
